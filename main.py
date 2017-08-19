@@ -5,8 +5,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def main_page():
-    #return render_template('login.html')
-    return 'xd'
+    return render_template('login.html')
 
 @app.route('/login')
 def login_page():
