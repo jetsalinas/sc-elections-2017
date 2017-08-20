@@ -4,6 +4,10 @@
     08/19/201
 """
 
+import os
+import datetime
+import csv
+
 from flask import Flask
 from flask import render_template
 
@@ -38,7 +42,7 @@ class Ballot(database.Model):
     ballotTreasurer = database.Column(database.Integer)
     ballotAuditor = database.Column(database.Integer)
 
-    ballotTime = database.Column(database.datetime)
+    ballotTime = database.Column(database.String)
     ballotIsComplete = database.Column(database.Boolean)
 
 class BallotSchema(marshmallow.ModelSchema):
@@ -55,7 +59,7 @@ class Candidate(database.Model):
     candidateFName = database.Column(database.String(50))
     candidateTotalVotes = database.Column(database.Integer)
 
-    candidateTime = database.Column(database.Column)
+    candidateTime = database.Column(database.String)
 
 class CandidateSchema(marshmallow.ModelSchema):
     class Meta:
