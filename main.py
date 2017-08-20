@@ -54,6 +54,7 @@ class Candidate(database.Model):
 
     candidateID = database.Column(database.Integer, primary_key=True)
     candidatePosition = database.Column(database.Integer)
+    candidateAffiliation = database.Column(database.Integer)
     candidateBatch = database.Column(database.Integer)
     candidateLName = database.Column(database.String(50))
     candidateFName = database.Column(database.String(50))
