@@ -103,4 +103,4 @@ ENV/
 # runtime files
 local.db
 candidatelist.csv
-studentlist.csv
+ballotlist.csv
