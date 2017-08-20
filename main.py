@@ -5,14 +5,15 @@
 """
 
 import os
-import datetime
 import csv
+from datetime import datetime
 
 from flask import Flask
 from flask import render_template
 
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
+from flask import jsonify
 
 #############
 #  CONFIGS  #
@@ -67,7 +68,26 @@ class CandidateSchema(marshmallow.ModelSchema):
         model = Candidate
 
 #LOAD DATABASE
+
+candidates = []
+with open("candidatelist.csv") as candidate_csv:
+    candidate_list = csv.reader(candidate_csv)
+    for row in candidate_list:
+        candidates.append(Candidate(
+        candidateID = row[0],
+        candidatePosition = row[1],
+        candidateAffiliation = row[2],
+        candidateBatch = row[3],
+        candidateLName = row[4],
+        candidateFName = row[5],
+        candidateTotalVotes = 0,
+        candidateTime = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        ))
+
 database.create_all()
+for candidate in candidates:
+    database.session.add(candidate)
+database.session.commit()
 
 #LOAD SCHEMAS
 ballot_schema = BallotSchema()
@@ -96,6 +116,14 @@ def verify_page():
 @app.route('/logout')
 def logout_page():
     return render_template('logout.html')
+
+@app.route('/debug')
+def debug():
+    result = [
+        candidate_schema.dump(candidate).data
+        for candidate in Candidate.query.all()
+    ]
+    return jsonify(result)
 
 if __name__ == "__main__":
     app.run()
