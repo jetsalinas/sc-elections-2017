@@ -31,7 +31,6 @@ class Ballot(database.Model):
     ballotBatch = database.Column(database.Integer)
     ballotLName = database.Column(database.String(50))
     ballotFName = database.Column(database.String(50))
-    ballotTime = database.Column(database.datetime)
 
     ballotPresident = database.Column(database.Integer)
     ballotVicePresident = database.Column(database.Integer)
@@ -39,9 +38,28 @@ class Ballot(database.Model):
     ballotTreasurer = database.Column(database.Integer)
     ballotAuditor = database.Column(database.Integer)
 
+    ballotTime = database.Column(database.datetime)
+    ballotIsComplete = database.Column(database.Boolean)
+
 class BallotSchema(marshmallow.ModelSchema):
         class Meta:
             model = Ballot
+
+class Candidate(database.Model):
+    __tablename__ = "candidates"
+
+    candidateID = database.Column(database.Integer, primary_key=True)
+    candidatePosition = database.Column(database.Integer)
+    candidateBatch = database.Column(database.Integer)
+    candidateLName = database.Column(database.String(50))
+    candidateFName = database.Column(database.String(50))
+    candidateTotalVotes = database.Column(database.Integer)
+
+    candidateTime = database.Column(database.Column)
+
+class CandidateSchema(marshmallow.ModelSchema):
+    class Meta:
+        model = Candidate
 
 #########
 #  APP  #
