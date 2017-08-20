@@ -65,6 +65,13 @@ class CandidateSchema(marshmallow.ModelSchema):
     class Meta:
         model = Candidate
 
+#LOAD DATABASE
+database.create_all()
+
+#LOAD SCHEMAS
+ballot_schema = BallotSchema()
+candidate_schema = CandidateSchema()
+
 #########
 #  APP  #
 #########

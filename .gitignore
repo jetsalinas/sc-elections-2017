@@ -100,5 +100,7 @@ ENV/
 # mypy
 .mypy_cache/
 
-#runtime files
+# runtime files
 local.db
+candidatelist.csv
+studentlist.csv
