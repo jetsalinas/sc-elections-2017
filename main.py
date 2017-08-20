@@ -144,5 +144,13 @@ def debug():
     ]
     return jsonify(result)
 
+@app.route('/debug2')
+def debu2g():
+    result = [
+        ballot_schema.dump(ballot).data
+        for ballot in Ballot.query.all()
+    ]
+    return jsonify(result)
+
 if __name__ == "__main__":
     app.run()
