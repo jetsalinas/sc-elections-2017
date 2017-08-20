@@ -68,6 +68,23 @@ class CandidateSchema(marshmallow.ModelSchema):
         model = Candidate
 
 #LOAD DATABASE
+ballots =[]
+with open("ballotlist.csv") as ballot_csv:
+    ballot_list = csv.reader(ballot_csv)
+    for row in ballot_list:
+        ballots.append(Ballot(
+        ballotID = row[0],
+        ballotBatch = row[1],
+        ballotLName = row[2],
+        ballotFName = row[3],
+        ballotPresident = 0,
+        ballotVicePresident = 0,
+        ballotSecretary = 0,
+        ballotTreasurer = 0,
+        ballotAuditor = 0,
+        ballotTime = datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+        ballotIsComplete = False
+        ))
 
 candidates = []
 with open("candidatelist.csv") as candidate_csv:
@@ -85,6 +102,8 @@ with open("candidatelist.csv") as candidate_csv:
         ))
 
 database.create_all()
+for ballot in ballots:
+    database.session.add(ballot)
 for candidate in candidates:
     database.session.add(candidate)
 database.session.commit()
