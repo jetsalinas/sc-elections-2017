@@ -1,0 +1,14 @@
+Codes
+
+Candidates
+100x - ID
+
+2000 - President
+2001 - Vice President
+2002 - Secretary
+2003 - Treasurer
+2004 - Auditor
+
+3000 - LIT
+3001 - UNLAD
+3002 - LAHI
