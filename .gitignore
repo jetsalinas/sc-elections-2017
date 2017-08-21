@@ -104,3 +104,10 @@ ENV/
 local.db
 candidatelist.csv
 ballotlist.csv
+
+# gulp serve files
+.tmp
+
+# node / bower dependencies
+node_modules
+bower_components

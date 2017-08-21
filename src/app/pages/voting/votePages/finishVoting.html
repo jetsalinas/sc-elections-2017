@@ -1,0 +1,53 @@
+<div class="modal-content">
+  <div class="modal-header bg-primary">
+    <i class="ion-clipboard modal-icon"></i><span> Finalize your Votes</span>
+    <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+      <em class="ion-ios-close-empty sn-link-close"></em>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-md-3 text-right">
+        <h3>President</h3>
+      </div>
+      <div class="col-md-9 text-left">
+        <h2>{{choicesString.president.name}} ({{choicesString.president.name}})</h2>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3 text-right">
+        <h3>President</h3>
+      </div>
+      <div class="col-md-9 text-left">
+        <h2>{{choicesString.vicePresident.name}} ({{choicesString.vicePresident.name}})</h2>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3 text-right">
+        <h3>President</h3>
+      </div>
+      <div class="col-md-9 text-left">
+        <h2>{{choicesString.secretary.name}} ({{choicesString.secretary.name}})</h2>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3 text-right">
+        <h3>President</h3>
+      </div>
+      <div class="col-md-9 text-left">
+        <h2>{{choicesString.treasurer.name}} ({{choicesString.treasurer.name}})</h2>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3 text-right">
+        <h3>President</h3>
+      </div>
+      <div class="col-md-9 text-left">
+        <h2>{{choicesString.auditor.name}} ({{choicesString.auditor.name}})</h2>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="submit" class="btn btn-primary" ng-click="$dismiss(); submit()">Submit Vote</button>
+  </div>
+</div>

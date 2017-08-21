@@ -1,0 +1,60 @@
+<div class="row">
+  <div class="banner">
+    <div class="large-banner-wrapper">
+        <img ng-src="{{::( 'app/typography/banner.jpg' | appImage )}}" alt=""/>
+    </div>
+    <div class="banner-text-wrapper">
+      <div class="banner-text">
+        <h1>Batch Council Elections | S.Y. 2017-2018</h1>
+        <div class="button-wrapper">
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div ng-switch="clearance">
+  <div class="row" ng-switch-when="true">
+    <div class="col-lg-6 col-lg-offset-3 col-md-12">
+      <div ba-panel ba-panel-title="Log Out of ElectionIO" ba-panel-class="with-scroll heading-widget">
+        <div class="button-wrapper">
+            <button progress-button="progressFunction()" ng-click="logout()" pb-style="rotate-back" class="btn btn-success">Log Out</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row" ng-switch-default>
+    <div ba-panel class="auth-block col-xl-6 col-xl-offset-3 col-lg-6 col-lg-offset-3 col-md-12 col-sm-12">
+      <h1>Log In to ElectionIO</h1>  
+      <form class="form-horizontal">
+        <div class="form-group">
+          <label for="inputUsername" class="col-sm-2 control-label">Username</label>
+          <div class="col-sm-10">
+            <input type="email" class="form-control" id="inputUsername" placeholder="Username">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="inputPassword" class="col-sm-2 control-label">Password</label>       
+          <div class="col-sm-10">
+            <input type="password" class="form-control" id="inputPassword" placeholder="Password">
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-sm-offset-2 col-sm-10">
+            <button type="button" class="btn btn-default btn-with-icon" ng-click="login()"><i class="ion-log-in" aria-hidden="true"></i> Log In</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<!--<div class="row">
+  <div class="col-lg-4 col-sm-6 col-xs-12">
+    <div ba-panel ba-panel-title="Weather" ba-panel-class="medium-panel with-scroll">
+      <blur-weather forecast="5"></blur-weather>
+    </div>
+  </div>
+</div>-->

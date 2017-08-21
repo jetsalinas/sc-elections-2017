@@ -1,0 +1,108 @@
+<div class="row">
+  <div class="col-lg-4 col-md-12">
+    <div ba-panel ba-panel-title="President" ba-panel-class="with-scroll table-panel">
+      <table class="table">
+        <tr>
+          <th></th>
+          <th>Name</th>
+          <th>Party</th>
+          <th></th>
+        </tr>
+        <tr ng-repeat="person in candidates.president" ng-class="{'primary':choices.president == $index}">
+          <td>{{$index}}</td>
+          <td>{{person.name}}</td>
+          <td>{{person.party}}</td>
+          <td ng-if="choices.president == $index"><button class="btn btn-xs btn-danger" ng-click="cancelVote($index, president)">Cancel</button></td>
+          <td ng-if="choices.president == -1"><button class="btn btn-xs btn-primary" ng-click="vote($index, president)">Vote</button></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <div class="col-lg-4 col-md-12">
+    <div ba-panel ba-panel-title="Vice-President" ba-panel-class="with-scroll table-panel">
+      <table class="table">
+        <tr>
+          <th></th>
+          <th>Name</th>
+          <th>Party</th>
+          <th></th>
+        </tr>
+        <tr ng-repeat="person in candidates.vicePresident" ng-class="{'primary':choices.vicePresident == $index}">
+          <td>{{$index}}</td>
+          <td>{{person.name}}</td>
+          <td>{{person.party}}</td>
+          <td ng-if="choices.vicePresident == $index"><button class="btn btn-xs btn-danger" ng-click="cancelVote($index, vicePresident)">Cancel</button></td>
+          <td ng-if="choices.vicePresident == -1"><button class="btn btn-xs btn-primary" ng-click="vote($index, vicePresident)">Vote</button></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <div class="col-lg-4 col-md-12">
+    <div ba-panel ba-panel-title="Secretary" ba-panel-class="with-scroll table-panel">
+      <table class="table">
+        <tr>
+          <th></th>
+          <th>Name</th>
+          <th>Party</th>
+          <th></th>
+        </tr>
+        <tr ng-repeat="person in candidates.secretary" ng-class="{'primary':choices.secretary == $index}">
+          <td>{{$index}}</td>
+          <td>{{person.name}}</td>
+          <td>{{person.party}}</td>
+          <td ng-if="choices.secretary == $index"><button class="btn btn-xs btn-danger" ng-click="cancelVote($index, secretary)">Cancel</button></td>
+          <td ng-if="choices.secretary == -1"><button class="btn btn-xs btn-primary" ng-click="vote($index, secretary)">Vote</button></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-lg-4 col-lg-offset-2 col-md-12">
+    <div ba-panel ba-panel-title="Treasurer" ba-panel-class="with-scroll table-panel">
+      <table class="table">
+        <tr>
+          <th></th>
+          <th>Name</th>
+          <th>Party</th>
+          <th></th>
+        </tr>
+        <tr ng-repeat="person in candidates.tpersonreasurer" ng-class="{'primary':choices.treasurer == $index}">
+          <td>{{$index}}</td>
+          <td>{{person.name}}</td>
+          <td>{{person.party}}</td>
+          <td ng-if="choices.treasurer == $index"><button class="btn btn-xs btn-danger" ng-click="cancelVote($index, treasurer)">Cancel</button></td>
+          <td ng-if="choices.treasurer == -1"><button class="btn btn-xs btn-primary" ng-click="vote($index, treasurer)">Vote</button></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <div class="col-lg-4 col-md-12">
+    <div ba-panel ba-panel-title="Auditor" ba-panel-class="with-scroll table-panel">
+      <table class="table">
+        <tr>
+          <th></th>
+          <th>Name</th>
+          <th>Party</th>
+          <th></th>
+        </tr>
+        <tr ng-repeat="person in candidates.auditor" ng-class="{'primary':choices.auditor == $index}">
+          <td>{{$index}}</td>
+          <td>{{person.name}}</td>
+          <td>{{person.party}}</td>
+          <td ng-if="choices.auditor == $index"><button class="btn btn-xs btn-danger" ng-click="cancelVote($index, auditor)">Cancel</button></td>
+          <td ng-if="choices.auditor == -1"><button class="btn btn-xs btn-primary" ng-click="vote($index, auditor)">Vote</button></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-lg-6 col-lg-offset-3 col-md-12">
+    <div ba-panel ba-panel-title="Finalize Votes" ba-panel-class="with-scroll heading-widget">
+      <div class="button-wrapper">
+        <button progress-button="progressFunction()" ng-click="finishVoting()" pb-style="rotate-back" class="btn btn-success">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
