@@ -104,3 +104,4 @@ ENV/
 local.db
 candidatelist.csv
 ballotlist.csv
+keys.py
