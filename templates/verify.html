@@ -1,0 +1,57 @@
+<!doctype html>
+<html>
+
+<head>
+    <!-- Meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Verification page for Student Elections 2017">
+
+    <title>Student Elections 2017 - Verify</title>
+
+    <!-- Scripts -->
+
+    <!-- CSS -->
+
+</head>
+
+<body>
+  <h1>Verification page for Student Elections 2017</h1>
+  <h2>Your Votes</h2>
+  <table>
+    <tr>
+      <th></th>
+      <th>Name</th>
+      <th>Party</th>
+    </tr>
+    <tr>
+      <th>President</th>
+      <th>{{ballot.president.name}}</th>
+      <th>{{ballot.president.party}}</th>
+    </tr>
+    <tr>
+      <th>Vice President</th>
+      <th>{{ballot.vicePresident.name}}</th>
+      <th>{{ballot.vicePresident.party}}</th>
+    </tr>
+    <tr>
+      <th>Secretary</th>
+      <th>{{ballot.secretary.name}}</th>
+      <th>{{ballot.secretary.party}}</th>
+    </tr>
+    <tr>
+      <th>Treasurer</th>
+      <th>{{ballot.treasurer.name}}</th>
+      <th>{{ballot.treasurer.party}}</th>
+    </tr>
+    <tr>
+      <th>Auditor</th>
+      <th>{{ballot.auditor.name}}</th>
+      <th>{{ballot.auditor.party}}</th>
+    </tr>
+  </table>
+  <input type="submit" value="Submit Vote">
+</body>
+
+</html>
