@@ -152,9 +152,22 @@ def validate_session():
 
 def validate_login(username, password):
     user = Security.query.filter_by(securityUName=username).first()
+    if user == None:
+        return False
     if username == user.securityUName:
         if password == user.securityPassword:
-            session['username'] = username
+            session['userID'] = user.securityID
+            session['username'] = user.securityUName
+            user = Ballot.query.filter_by(ballotID=session['userID']).first()
+            session['userBatch'] = user.ballotBatch
+            session['userLName'] = user.ballotLName
+            session['userFName'] = user.ballotFName
+            session['userTime'] = user.ballotTime
+            session['userPresident'] = user.ballotPresident
+            session['userVicePresident'] = user.ballotVicePresident
+            session['userSecretary'] = user.ballotSecretary
+            session['userTreasurer'] = user.ballotTreasurer
+            session['userAuditor'] = user.ballotAuditor
             return True
     return False
 
@@ -166,9 +179,9 @@ def main_page():
 def login_page():
     #SKIP LOG IN PAGE IF A USER IS ALREADY LOGGED IN
 
-    #if validate_session():
-    if session['username']:
-        return redirect(url_for('vote_page'))
+    if validate_session():
+        if session['username']:
+            return redirect(url_for('vote_page'))
     #PROCESS LOGIN REQUESTS
     if request.method == 'POST':
         username = request.form['username']
