@@ -12,7 +12,7 @@ from datetime import datetime
 from flask import Flask, render_template, jsonify
 from flask import session, request, redirect, url_for
 
-from flask_sqlalchemy import SQLAlchemy
+from flask_sqlalchemy import SQLAlchemy, User
 from flask_marshmallow import Marshmallow
 
 #############
@@ -69,6 +69,17 @@ class CandidateSchema(marshmallow.ModelSchema):
     class Meta:
         model = Candidate
 
+class Security(database.Model):
+    __tablename__ = "security"
+
+    securityID = database.Column(database.Integer, primary_key=True)
+    securityUName = database.Column(database.String(50))
+    securityPassword = database.Column(database.String(50))
+
+class SecuritySchema(marshmallow.ModelSchema):
+    class Meta:
+        model = Security
+
 #LOAD DATABASE
 ballots =[]
 with open("ballotlist.csv") as ballot_csv:
@@ -102,24 +113,47 @@ with open("candidatelist.csv") as candidate_csv:
         candidateTotalVotes = 0,
         candidateTime = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         ))
-'''
+
+
+securitys = []
+with open("securitylist.csv") as security_csv:
+    security_list = csv.reader(security_csv)
+    for row in security_list:
+        securitys.append(Security(
+        securityID = row[0],
+        securityUName = row[1],
+        securityPassword = row[2]
+        ))
+
 database.create_all()
 for ballot in ballots:
     database.session.add(ballot)
 for candidate in candidates:
     database.session.add(candidate)
+for security in securitys:
+    database.session.add(security)
 database.session.commit()
-'''
+
 #LOAD SCHEMAS
 ballot_schema = BallotSchema()
 candidate_schema = CandidateSchema()
+security_schema = SecuritySchema()
 
 #########
 #  APP  #
 #########
 
+def validate_session():
+    try:
+        if session['username'] == None or session['username']:
+            return True
+    except:
+        return False
+
 def validate_login(username, password):
-    return True
+    if username == User.query.filter_by(securityUName==username):
+        return True
+    return False
 
 @app.route('/')
 def main_page():
@@ -128,29 +162,30 @@ def main_page():
 @app.route('/login', methods=['GET', 'POST'])
 def login_page():
     #SKIP LOG IN PAGE IF A USER IS ALREADY LOGGED IN
-    if session['username']:
-        return redirect(url_for('vote_page'))
+    if validate_session():
+        if session['username']:
+            return redirect(url_for('vote_page'))
     #PROCESS LOGIN REQUESTS
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
         if validate_login(username=username, password=password):
-            session['username'] = request.form['username']
-            session['logged_in'] = True
             return redirect(url_for('vote_page'))
     #SHOW LOGIN PAGE
     return render_template('login.html')
 
 @app.route('/vote')
 def vote_page():
-    if session['username']:
-        return render_template('vote.html')
+    if validate_session():
+        if session['username']:
+            return render_template('vote.html')
     return redirect(url_for('login_page'))
 
 @app.route('/verify')
 def verify_page():
-    if session['username']:
-        return render_template('verify.html')
+    if validate_session():
+        if session['username']:
+            return render_template('verify.html')
     return redirect(url_for('login_page'))
 
 @app.route('/logout')
@@ -167,12 +202,21 @@ def debug():
     return jsonify(result)
 
 @app.route('/debug2')
-def debu2g():
+def debug2():
     result = [
         ballot_schema.dump(ballot).data
         for ballot in Ballot.query.all()
     ]
     return jsonify(result)
+
+@app.route('/debug3')
+def debug3():
+    result = [
+        security_schema.dump(security).data
+        for security in Security.query.all()
+    ]
+    return jsonify(result)
+
 
 if __name__ == "__main__":
     app.run()
