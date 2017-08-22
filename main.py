@@ -190,7 +190,13 @@ def login_page():
     #SHOW LOGIN PAGE
     return render_template('login.html')
 
-@app.route('/vote')
+def validate_choice(query, parameter):
+    result = query.filter_by(candidateID=parameter).first()
+    if not result == None:
+        return True
+    return False
+
+@app.route('/vote', methods=['GET', 'POST'])
 def vote_page():
     #SHOW VOTE PAGE IF LOGGED IN
     if validate_session():
@@ -202,6 +208,15 @@ def vote_page():
             auditorList = Candidate.query.filter_by(candidateBatch=session['userBatch']).filter_by(candidatePosition=2004)
             return render_template('vote.html', presidentList=presidentList, vicePresidentList=vicePresidentList, secretaryList=secretaryList, treasurerList=treasurerList, auditorList=auditorList)
     #PROCESS VOTE REQUESTS
+    if request.method == 'POST':
+        session['userTime'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        session['userPresident'] = int(request.form['presidentForm'])
+        session['userVicePresident'] = int(request.form['vicePresidentForm'])
+        session['userSecretary'] = int(request.form['secretaryForm'])
+        session['userTreasurer'] = int(request.form['treasurerForm'])
+        session['userAuditor'] = int(request.form['auditorForm'])
+        if validate_choice(query=presidentList, parameter=session['userPresident']) and validate_choice(query=vicePresidentList, parameter=session['userVicePresident']) and validate_choice(query=secretaryList, parameter=session['userSecretary']) and validate_choice(query=treasurerList, parameter=session['userTreasurer']) and validate_choice(query=auditorList, parameter=session['userAuditor']):
+            return redirect(url_for('verify_page'))
     return redirect(url_for('login_page'))
 
 @app.route('/verify')
