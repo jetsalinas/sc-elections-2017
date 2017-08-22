@@ -12,7 +12,7 @@ from datetime import datetime
 from flask import Flask, render_template, jsonify
 from flask import session, request, redirect, url_for
 
-from flask_sqlalchemy import SQLAlchemy, User
+from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 
 #############
@@ -26,7 +26,7 @@ marshmallow = Marshmallow(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///local.db'
 app.secret_key = SESSION_SECRET_KEY
 
-
+database.drop_all()
 #############
 #  SCHEMAS  #
 #############
@@ -151,8 +151,11 @@ def validate_session():
         return False
 
 def validate_login(username, password):
-    if username == User.query.filter_by(securityUName==username):
-        return True
+    user = Security.query.filter_by(securityUName=username).first()
+    if username == user.securityUName:
+        if password == user.securityPassword:
+            session['username'] = username
+            return True
     return False
 
 @app.route('/')
@@ -162,9 +165,10 @@ def main_page():
 @app.route('/login', methods=['GET', 'POST'])
 def login_page():
     #SKIP LOG IN PAGE IF A USER IS ALREADY LOGGED IN
-    if validate_session():
-        if session['username']:
-            return redirect(url_for('vote_page'))
+
+    #if validate_session():
+    if session['username']:
+        return redirect(url_for('vote_page'))
     #PROCESS LOGIN REQUESTS
     if request.method == 'POST':
         username = request.form['username']
@@ -176,9 +180,11 @@ def login_page():
 
 @app.route('/vote')
 def vote_page():
+    #SHOW VOTE PAGE IF LOGGED IN
     if validate_session():
         if session['username']:
             return render_template('vote.html')
+    #PROCESS VOTE REQUESTS
     return redirect(url_for('login_page'))
 
 @app.route('/verify')
