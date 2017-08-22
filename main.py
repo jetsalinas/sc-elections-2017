@@ -183,7 +183,7 @@ def login_page():
             return redirect(url_for('vote_page'))
     #PROCESS LOGIN REQUESTS
     if request.method == 'POST':
-        username = request.form['username']
+        username = request.form['username']      
         password = request.form['password']
         if validate_login(username=username, password=password):
             return redirect(url_for('vote_page'))
