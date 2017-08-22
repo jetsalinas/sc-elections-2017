@@ -57,7 +57,7 @@ class Candidate(database.Model):
 
     candidateID = database.Column(database.Integer, primary_key=True)
     candidatePosition = database.Column(database.Integer)
-    candidateAffiliation = database.Column(database.Integer)
+    candidateAffiliation = database.Column(database.String(50))
     candidateBatch = database.Column(database.Integer)
     candidateLName = database.Column(database.String(50))
     candidateFName = database.Column(database.String(50))
@@ -183,7 +183,7 @@ def login_page():
             return redirect(url_for('vote_page'))
     #PROCESS LOGIN REQUESTS
     if request.method == 'POST':
-        username = request.form['username']      
+        username = request.form['username']
         password = request.form['password']
         if validate_login(username=username, password=password):
             return redirect(url_for('vote_page'))
@@ -195,7 +195,12 @@ def vote_page():
     #SHOW VOTE PAGE IF LOGGED IN
     if validate_session():
         if session['username']:
-            return render_template('vote.html')
+            presidentList = Candidate.query.filter_by(candidateBatch=session['userBatch']).filter_by(candidatePosition=2000)
+            vicePresidentList = Candidate.query.filter_by(candidateBatch=session['userBatch']).filter_by(candidatePosition=2001)
+            secretaryList = Candidate.query.filter_by(candidateBatch=session['userBatch']).filter_by(candidatePosition=2002)
+            treasurerList = Candidate.query.filter_by(candidateBatch=session['userBatch']).filter_by(candidatePosition=2003)
+            auditorList = Candidate.query.filter_by(candidateBatch=session['userBatch']).filter_by(candidatePosition=2004)
+            return render_template('vote.html', presidentList=presidentList, vicePresidentList=vicePresidentList, secretaryList=secretaryList, treasurerList=treasurerList, auditorList=auditorList)
     #PROCESS VOTE REQUESTS
     return redirect(url_for('login_page'))
 
