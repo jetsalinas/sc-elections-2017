@@ -178,7 +178,6 @@ def main_page():
 @app.route('/login', methods=['GET', 'POST'])
 def login_page():
     #SKIP LOG IN PAGE IF A USER IS ALREADY LOGGED IN
-
     if validate_session():
         if session['username']:
             return redirect(url_for('vote_page'))
@@ -211,31 +210,6 @@ def verify_page():
 def logout_page():
     session['username'] = None
     return render_template('logout.html')
-
-@app.route('/debug')
-def debug():
-    result = [
-        candidate_schema.dump(candidate).data
-        for candidate in Candidate.query.all()
-    ]
-    return jsonify(result)
-
-@app.route('/debug2')
-def debug2():
-    result = [
-        ballot_schema.dump(ballot).data
-        for ballot in Ballot.query.all()
-    ]
-    return jsonify(result)
-
-@app.route('/debug3')
-def debug3():
-    result = [
-        security_schema.dump(security).data
-        for security in Security.query.all()
-    ]
-    return jsonify(result)
-
 
 if __name__ == "__main__":
     app.run()
