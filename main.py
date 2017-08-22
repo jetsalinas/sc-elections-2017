@@ -177,11 +177,14 @@ def main_page():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login_page():
+    #SKIP LOG IN PAGE IF A USER IS ALREADY LOGGED IN
+    if validate_session():
+        if session['username']:
+            return redirect(url_for('vote_page'))
     #PROCESS LOGIN REQUESTS
     if request.method == 'POST':
-        recievedInput = request.get_json(force=True)
-        username = recievedInput['username']
-        password = recievedInput['password']
+        username = request.form['username']      
+        password = request.form['password']
         if validate_login(username=username, password=password):
             return redirect(url_for('vote_page'))
     #SHOW LOGIN PAGE
