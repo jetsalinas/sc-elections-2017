@@ -125,6 +125,11 @@ with open("securitylist.csv") as security_csv:
         securityPassword = row[2]
         ))
 
+#CLEARS DATABASE FROM FRESH RUN: HEROKU TESTING
+if 'DYNO' not in os.environ:
+    database.reflect()
+    database.drop_all()
+
 database.create_all()
 for ballot in ballots:
     database.session.add(ballot)
