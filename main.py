@@ -145,8 +145,9 @@ security_schema = SecuritySchema()
 
 def validate_session():
     try:
-        if session['username'] == None or session['username']:
+        if session['username']:
             return True
+        return False
     except:
         return False
 
@@ -179,8 +180,7 @@ def main_page():
 def login_page():
     #SKIP LOG IN PAGE IF A USER IS ALREADY LOGGED IN
     if validate_session():
-        if session['username']:
-            return redirect(url_for('vote_page'))
+        return redirect(url_for('vote_page'))
     #PROCESS LOGIN REQUESTS
     if request.method == 'POST':
         username = request.form['username']
@@ -211,13 +211,12 @@ def vote_page():
 
     #SHOW VOTE PAGE IF LOGGED IN
     if validate_session():
-        if session['username']:
-            presidentList = Candidate.query.filter_by(candidateBatch=session['userBatch']).filter_by(candidatePosition=2000)
-            vicePresidentList = Candidate.query.filter_by(candidateBatch=session['userBatch']).filter_by(candidatePosition=2001)
-            secretaryList = Candidate.query.filter_by(candidateBatch=session['userBatch']).filter_by(candidatePosition=2002)
-            treasurerList = Candidate.query.filter_by(candidateBatch=session['userBatch']).filter_by(candidatePosition=2003)
-            auditorList = Candidate.query.filter_by(candidateBatch=session['userBatch']).filter_by(candidatePosition=2004)
-            return render_template('vote.html', presidentList=presidentList, vicePresidentList=vicePresidentList, secretaryList=secretaryList, treasurerList=treasurerList, auditorList=auditorList)
+        presidentList = Candidate.query.filter_by(candidateBatch=session['userBatch']).filter_by(candidatePosition=2000)
+        vicePresidentList = Candidate.query.filter_by(candidateBatch=session['userBatch']).filter_by(candidatePosition=2001)
+        secretaryList = Candidate.query.filter_by(candidateBatch=session['userBatch']).filter_by(candidatePosition=2002)
+        treasurerList = Candidate.query.filter_by(candidateBatch=session['userBatch']).filter_by(candidatePosition=2003)
+        auditorList = Candidate.query.filter_by(candidateBatch=session['userBatch']).filter_by(candidatePosition=2004)
+        return render_template('vote.html', presidentList=presidentList, vicePresidentList=vicePresidentList, secretaryList=secretaryList, treasurerList=treasurerList, auditorList=auditorList)
 
     return redirect(url_for('login_page'))
 
@@ -246,13 +245,12 @@ def verify_page():
         return redirect(url_for('logout_page'))
 
     if validate_session():
-        if session['username']:
-            choicePresident = Candidate.query.filter_by(candidateID=session['userPresident']).first()
-            choiceVicePresident = Candidate.query.filter_by(candidateID=session['userVicePresident']).first()
-            choiceSecretary = Candidate.query.filter_by(candidateID=session['userSecretary']).first()
-            choiceTreasurer = Candidate.query.filter_by(candidateID=session['userTreasurer']).first()
-            choiceAuditor = Candidate.query.filter_by(candidateID=session['userAuditor']).first()
-            return render_template('verify.html', choicePresident=choicePresident, choiceVicePresident=choiceVicePresident, choiceSecretary=choiceSecretary, choiceTreasurer=choiceTreasurer, choiceAuditor=choiceAuditor)
+        choicePresident = Candidate.query.filter_by(candidateID=session['userPresident']).first()
+        choiceVicePresident = Candidate.query.filter_by(candidateID=session['userVicePresident']).first()
+        choiceSecretary = Candidate.query.filter_by(candidateID=session['userSecretary']).first()
+        choiceTreasurer = Candidate.query.filter_by(candidateID=session['userTreasurer']).first()
+        choiceAuditor = Candidate.query.filter_by(candidateID=session['userAuditor']).first()
+        return render_template('verify.html', choicePresident=choicePresident, choiceVicePresident=choiceVicePresident, choiceSecretary=choiceSecretary, choiceTreasurer=choiceTreasurer, choiceAuditor=choiceAuditor)
     return redirect(url_for('login_page'))
 
 def clear_session():
