@@ -90,11 +90,11 @@ with open("ballotlist.csv") as ballot_csv:
         ballotBatch = row[1],
         ballotLName = row[2],
         ballotFName = row[3],
-        ballotPresident = 0,
-        ballotVicePresident = 0,
-        ballotSecretary = 0,
-        ballotTreasurer = 0,
-        ballotAuditor = 0,
+        ballotPresident = None,
+        ballotVicePresident = None,
+        ballotSecretary = None,
+        ballotTreasurer = None,
+        ballotAuditor = None,
         ballotTime = datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
         ballotIsComplete = False
         ))
@@ -113,7 +113,6 @@ with open("candidatelist.csv") as candidate_csv:
         candidateTotalVotes = 0,
         candidateTime = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         ))
-
 
 securitys = []
 with open("securitylist.csv") as security_csv:
@@ -192,6 +191,7 @@ def main_page():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login_page():
+    error = False
     #SKIP LOG IN PAGE IF A USER IS ALREADY LOGGED IN
     if validate_session():
         return redirect(url_for('vote_page'))
@@ -201,14 +201,10 @@ def login_page():
         password = request.form['password']
         if validate_login(username=username, password=password):
             return redirect(url_for('vote_page'))
+        else:
+            error = True
     #SHOW LOGIN PAGE
-    return render_template('login.html')
-
-def validate_choice(query, parameter):
-    result = query.filter_by(candidateID=parameter).first()
-    if not result == None:
-        return True
-    return False
+    return render_template('login.html', error=error)
 
 @app.route('/vote', methods=['GET', 'POST'])
 def vote_page():
@@ -221,7 +217,7 @@ def vote_page():
         session['userTreasurer'] = int(request.form['treasurerForm'])
         session['userAuditor'] = int(request.form['auditorForm'])
 #        if validate_choice(query=presidentList, parameter=session['userPresident']) and validate_choice(query=vicePresidentList, parameter=session['userVicePresident']) and validate_choice(query=secretaryList, parameter=session['userSecretary']) and validate_choice(query=treasurerList, parameter=session['userTreasurer']) and validate_choice(query=auditorList, parameter=session['userAuditor']):
-        return redirect(url_for('verify_page'))
+        #return redirect(url_for('verify_page'))
 
     #SHOW VOTE PAGE IF LOGGED IN
     if validate_session():
@@ -230,9 +226,14 @@ def vote_page():
         secretaryList = Candidate.query.filter_by(candidateBatch=session['userBatch']).filter_by(candidatePosition=2002)
         treasurerList = Candidate.query.filter_by(candidateBatch=session['userBatch']).filter_by(candidatePosition=2003)
         auditorList = Candidate.query.filter_by(candidateBatch=session['userBatch']).filter_by(candidatePosition=2004)
-        return render_template('vote.html', presidentList=presidentList, vicePresidentList=vicePresidentList, secretaryList=secretaryList, treasurerList=treasurerList, auditorList=auditorList)
+        return render_template('vote.html',
+        presidentList=presidentList,
+        vicePresidentList=vicePresidentList,
+        secretaryList=secretaryList,
+        treasurerList=treasurerList,
+        auditorList=auditorList)
 
-    return redirect(url_for('login_page'))
+    #return redirect(url_for('login_page'))
 
 @app.route('/verify', methods=['GET', 'POST'])
 def verify_page():
