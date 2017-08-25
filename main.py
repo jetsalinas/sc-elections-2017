@@ -179,7 +179,7 @@ def load_session_data(userID):
     session['userSecretary'] = user.ballotSecretary
     session['userTreasurer'] = user.ballotTreasurer
     session['userAuditor'] = user.ballotAuditor
-
+    session['ballotIsComplete'] = user.ballotIsComplete
     result = [
         ballot_schema.dump(user)
     ]
