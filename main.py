@@ -145,11 +145,31 @@ security_schema = SecuritySchema()
 
 def validate_session():
     try:
-        if session['username']:
+        if session['userID']:
             return True
         return False
     except:
         return False
+
+def load_session_data(userID):
+    user = Ballot.query.filter_by(ballotID=userID).first()
+    if user == None:
+        return None
+    session['userID'] = user.ballotID
+    session['userBatch'] = user.ballotBatch
+    session['userLName'] = user.ballotLName
+    session['userFName'] = user.ballotFName
+    session['userTime'] = user.ballotTime
+    session['userPresident'] = user.ballotPresident
+    session['userVicePresident'] = user.ballotVicePresident
+    session['userSecretary'] = user.ballotSecretary
+    session['userTreasurer'] = user.ballotTreasurer
+    session['userAuditor'] = user.ballotAuditor
+
+    result = [
+        ballot_schema.dump(user)
+    ]
+    return jsonify(result)
 
 def validate_login(username, password):
     user = Security.query.filter_by(securityUName=username).first()
@@ -157,18 +177,7 @@ def validate_login(username, password):
         return False
     if username == user.securityUName:
         if password == user.securityPassword:
-            session['userID'] = user.securityID
-            session['username'] = user.securityUName
-            user = Ballot.query.filter_by(ballotID=session['userID']).first()
-            session['userBatch'] = user.ballotBatch
-            session['userLName'] = user.ballotLName
-            session['userFName'] = user.ballotFName
-            session['userTime'] = user.ballotTime
-            session['userPresident'] = user.ballotPresident
-            session['userVicePresident'] = user.ballotVicePresident
-            session['userSecretary'] = user.ballotSecretary
-            session['userTreasurer'] = user.ballotTreasurer
-            session['userAuditor'] = user.ballotAuditor
+            load_session_data(userID=user.securityID)
             return True
     return False
 
@@ -270,6 +279,10 @@ def clear_session():
 def logout_page():
     clear_session()
     return render_template('logout.html')
+
+@app.route('/debug')
+def debug():
+    return load_session_data(session['userID'])
 
 if __name__ == "__main__":
     app.run()
