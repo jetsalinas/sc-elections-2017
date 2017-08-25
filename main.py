@@ -198,6 +198,17 @@ def validate_choice(query, parameter):
 
 @app.route('/vote', methods=['GET', 'POST'])
 def vote_page():
+    #PROCESS VOTE REQUESTS
+    if request.method == 'POST':
+        session['userTime'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        session['userPresident'] = int(request.form['presidentForm'])
+        session['userVicePresident'] = int(request.form['vicePresidentForm'])
+        session['userSecretary'] = int(request.form['secretaryForm'])
+        session['userTreasurer'] = int(request.form['treasurerForm'])
+        session['userAuditor'] = int(request.form['auditorForm'])
+#        if validate_choice(query=presidentList, parameter=session['userPresident']) and validate_choice(query=vicePresidentList, parameter=session['userVicePresident']) and validate_choice(query=secretaryList, parameter=session['userSecretary']) and validate_choice(query=treasurerList, parameter=session['userTreasurer']) and validate_choice(query=auditorList, parameter=session['userAuditor']):
+        return redirect(url_for('verify_page'))
+
     #SHOW VOTE PAGE IF LOGGED IN
     if validate_session():
         if session['username']:
@@ -207,28 +218,59 @@ def vote_page():
             treasurerList = Candidate.query.filter_by(candidateBatch=session['userBatch']).filter_by(candidatePosition=2003)
             auditorList = Candidate.query.filter_by(candidateBatch=session['userBatch']).filter_by(candidatePosition=2004)
             return render_template('vote.html', presidentList=presidentList, vicePresidentList=vicePresidentList, secretaryList=secretaryList, treasurerList=treasurerList, auditorList=auditorList)
-    #PROCESS VOTE REQUESTS
-    if request.method == 'POST':
-        session['userTime'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        session['userPresident'] = int(request.form['presidentForm'])
-        session['userVicePresident'] = int(request.form['vicePresidentForm'])
-        session['userSecretary'] = int(request.form['secretaryForm'])
-        session['userTreasurer'] = int(request.form['treasurerForm'])
-        session['userAuditor'] = int(request.form['auditorForm'])
-        if validate_choice(query=presidentList, parameter=session['userPresident']) and validate_choice(query=vicePresidentList, parameter=session['userVicePresident']) and validate_choice(query=secretaryList, parameter=session['userSecretary']) and validate_choice(query=treasurerList, parameter=session['userTreasurer']) and validate_choice(query=auditorList, parameter=session['userAuditor']):
-            return redirect(url_for('verify_page'))
+
     return redirect(url_for('login_page'))
 
-@app.route('/verify')
+@app.route('/verify', methods=['GET', 'POST'])
 def verify_page():
+    #SAVE VOTES
+    if request.method == 'POST':
+        #choicePresident = Candidate.query.filter_by(candidateID=session['userPresident']).first()
+        #choiceVicePresident = Candidate.query.filter_by(candidateID=session['userVicePresident']).first()
+        #choiceSecretary = Candidate.query.filter_by(candidateID=session['userSecretary']).first()
+        #choiceTreasurer = Candidate.query.filter_by(candidateID=session['userTreasurer']).first()
+        #choiceAuditor = Candidate.query.filter_by(candidateID=session['userAuditor']).first()
+
+        #choicePresident.candidateTotalVotes = choicePresident.candidateTotalVotes + 1
+        #choicePresident.candidateTime = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        #choiceVicePresident.candidateTotalVotes = choiceVicePresident.candidateTotalVotes + 1
+        #choiceVicePresident.candidateTime = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        #choiceSecretary.candidateTotalVotes = choicePresident.candidateTotalVotes + 1
+        #choiceSecretary.candidateTime = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        #choiceTreasurer.candidateTotalVotes = choiceTreasurer.candidateTotalVotes + 1
+        #choiceTreasurer.candidateTime = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        #choiceAuditor.candidateTotalVotes = choiceAuditor.candidateTotalVotes + 1
+        #choiceAuditor.candidateTime = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
+        database.session.commit()
+        return redirect(url_for('logout_page'))
+
     if validate_session():
         if session['username']:
-            return render_template('verify.html')
+            choicePresident = Candidate.query.filter_by(candidateID=session['userPresident']).first()
+            choiceVicePresident = Candidate.query.filter_by(candidateID=session['userVicePresident']).first()
+            choiceSecretary = Candidate.query.filter_by(candidateID=session['userSecretary']).first()
+            choiceTreasurer = Candidate.query.filter_by(candidateID=session['userTreasurer']).first()
+            choiceAuditor = Candidate.query.filter_by(candidateID=session['userAuditor']).first()
+            return render_template('verify.html', choicePresident=choicePresident, choiceVicePresident=choiceVicePresident, choiceSecretary=choiceSecretary, choiceTreasurer=choiceTreasurer, choiceAuditor=choiceAuditor)
     return redirect(url_for('login_page'))
+
+def clear_session():
+    session['userID'] = None
+    session['username'] = None
+    session['userBatch'] = None
+    session['userLName'] = None
+    session['userFName'] = None
+    session['userTime'] = None
+    session['userPresident'] = None
+    session['userVicePresident'] = None
+    session['userSecretary'] = None
+    session['userTreasurer'] = None
+    session['userAuditor'] = None
 
 @app.route('/logout')
 def logout_page():
-    session['username'] = None
+    clear_session()
     return render_template('logout.html')
 
 if __name__ == "__main__":

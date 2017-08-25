@@ -21,37 +21,41 @@
   <h2>Your Votes</h2>
   <table>
     <tr>
-      <th></th>
+      <th>Position</th>
       <th>Name</th>
       <th>Party</th>
     </tr>
     <tr>
-      <th>President</th>
-      <th>{{ballot.president.name}}</th>
-      <th>{{ballot.president.party}}</th>
+      <td>President</td>
+      <td>{{choicePresident.candidateLName}}, {{choicePresident.candidateFName}}</td>
+      <td>{{choicePresident.candidateAffiliation}}</td>
     </tr>
     <tr>
-      <th>Vice President</th>
-      <th>{{ballot.vicePresident.name}}</th>
-      <th>{{ballot.vicePresident.party}}</th>
+      <td>Vice President</td>
+      <td>{{choiceVicePresident.candidateLName}}, {{choiceVicePresident.candidateFName}}</td>
+      <td>{{choiceVicePresident.candidateAffiliation}}</td>
     </tr>
     <tr>
-      <th>Secretary</th>
-      <th>{{ballot.secretary.name}}</th>
-      <th>{{ballot.secretary.party}}</th>
+      <td>Secretary</td>
+      <td>{{choiceSecretary.candidateLName}}, {{choiceSecretary.candidateFName}}</td>
+      <td>{{choiceSecretary.candidateAffiliation}}</td>
     </tr>
     <tr>
-      <th>Treasurer</th>
-      <th>{{ballot.treasurer.name}}</th>
-      <th>{{ballot.treasurer.party}}</th>
+      <td>Treasurer</td>
+      <td>{{choiceTreasurer.candidateLName}}, {{choiceTreasurer.candidateFName}}</td>
+      <td>{{choiceTreasurer.candidateAffiliation}}</td>
     </tr>
     <tr>
-      <th>Auditor</th>
-      <th>{{ballot.auditor.name}}</th>
-      <th>{{ballot.auditor.party}}</th>
+      <td>Auditor</td>
+      <td>{{choiceAuditor.candidateLName}}, {{choiceAuditor.candidateFName}}</td>
+      <td>{{choiceAuditor.candidateAffiliation}}</td>
     </tr>
   </table>
-  <input type="submit" value="Submit Vote">
+
+  <form method='POST' action="/verify">
+    <input type="submit" value="Submit Vote">
+  </form>
+
 </body>
 
 </html>
