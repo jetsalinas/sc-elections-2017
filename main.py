@@ -276,6 +276,13 @@ def commit_ballot():
     database.session.commit()
 
 def commit_candidate():
+    Candidate.query.filter_by(candidateID=session['userPresident']).first().candidateTotalVotes += 1
+    Candidate.query.filter_by(candidateID=session['userVicePresident']).first().candidateTotalVotes += 1
+    Candidate.query.filter_by(candidateID=session['userSecretary']).first().candidateTotalVotes += 1
+    Candidate.query.filter_by(candidateID=session['userTreasurer']).first().candidateTotalVotes += 1
+    Candidate.query.filter_by(candidateID=session['userAuditor']).first().candidateTotalVotes += 1
+    Candidate.query.filter_by(candidateID=session['userPresident']).first().candidateTime = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    database.session.commit()
 
 @app.route('/verify', methods=['GET', 'POST'])
 def verify_page():
@@ -283,18 +290,8 @@ def verify_page():
     if request.method == 'POST':
         if session['formValid']:
             commit_ballot()
+            commit_candidate()
             return redirect(url_for('logout_page'))
-
-        #choicePresident.candidateTotalVotes = choicePresident.candidateTotalVotes + 1
-        #choicePresident.candidateTime = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        #choiceVicePresident.candidateTotalVotes = choiceVicePresident.candidateTotalVotes + 1
-        #choiceVicePresident.candidateTime = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        #choiceSecretary.candidateTotalVotes = choicePresident.candidateTotalVotes + 1
-        #choiceSecretary.candidateTime = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        #choiceTreasurer.candidateTotalVotes = choiceTreasurer.candidateTotalVotes + 1
-        #choiceTreasurer.candidateTime = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        #choiceAuditor.candidateTotalVotes = choiceAuditor.candidateTotalVotes + 1
-        #choiceAuditor.candidateTime = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
     if validate_session():
         choicePresident = Candidate.query.filter_by(candidateID=session['userPresident']).first()
@@ -328,6 +325,14 @@ def debug():
     result = [
         ballot_schema.dump(ballot).data
         for ballot in Ballot.query.all()
+    ]
+    return jsonify(result)
+
+@app.route('/debug2')
+def debug2():
+    result = [
+        candidate_schema.dump(candidate).data
+        for candidate in Candidate.query.all()
     ]
     return jsonify(result)
 
