@@ -179,7 +179,7 @@ def load_session_data(userID):
     session['userSecretary'] = user.ballotSecretary
     session['userTreasurer'] = user.ballotTreasurer
     session['userAuditor'] = user.ballotAuditor
-    session['ballotIsComplete'] = user.ballotIsComplete
+    session['userIsComplete'] = user.ballotIsComplete
     result = [
         ballot_schema.dump(user)
     ]
@@ -194,12 +194,14 @@ def login_page():
     error = False
     #SKIP LOG IN PAGE IF A USER IS ALREADY LOGGED IN
     if validate_session():
+        load_session_data(userID=session['userID'])
         return redirect(url_for('vote_page'))
     #PROCESS LOGIN REQUESTS
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
         if validate_login(username=username, password=password):
+            load_session_data(userID=session['userID'])
             return redirect(url_for('vote_page'))
         else:
             error = True
@@ -240,6 +242,9 @@ def validate_choices(requestform):
 def vote_page():
     error = False
     session['formValid'] = False
+    #REDIRECT TO VERIFICATION IF VOTING IS COMPLETE
+    if session['userIsComplete']:
+        return redirect(url_for('verify_page'))
     #PROCESS VOTE REQUESTS
     if request.method == 'POST':
         if validate_choices(requestform=request.form):
@@ -273,6 +278,7 @@ def commit_ballot():
     Ballot.query.filter_by(ballotID=session['userID']).first().ballotAuditor = session['userAuditor']
     Ballot.query.filter_by(ballotID=session['userID']).first().ballotTime = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     Ballot.query.filter_by(ballotID=session['userID']).first().ballotIsComplete = True
+    session['userIsComplete'] = True
     database.session.commit()
 
 def commit_candidate():
@@ -288,10 +294,11 @@ def commit_candidate():
 def verify_page():
     #SAVE VOTES
     if request.method == 'POST':
-        if session['formValid']:
-            commit_ballot()
-            commit_candidate()
-            return redirect(url_for('logout_page'))
+        if not session['userIsComplete']:
+            if session['formValid']:
+                commit_ballot()
+                commit_candidate()
+        return redirect(url_for('logout_page'))
 
     if validate_session():
         choicePresident = Candidate.query.filter_by(candidateID=session['userPresident']).first()
