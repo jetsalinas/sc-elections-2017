@@ -26,7 +26,7 @@
       <tr>
         <td>{{president.candidateLName}}, {{president.candidateFName}}</td>
         <td>{{president.candidateAffiliation}}</td>
-        <td><input name="presidentForm" type="radio" value="{{president.candidateID}}">
+        <td><input name="presidentForm" type="radio" value="{{president.candidateID}}" required>
       </tr>
       {% endfor %}
       <h2>Vice President</h2>
@@ -34,7 +34,7 @@
       <tr>
         <td>{{vicePresident.candidateLName}}, {{vicePresident.candidateFName}}</td>
         <td>{{vicePresident.candidateAffiliation}}</td>
-        <td><input name="vicePresidentForm" type="radio" value="{{vicePresident.candidateID}}">
+        <td><input name="vicePresidentForm" type="radio" value="{{vicePresident.candidateID}}" required>
       </tr>
       {% endfor %}
       <h2>Secretary</h2>
@@ -42,7 +42,7 @@
       <tr>
         <td>{{secretary.candidateLName}}, {{secretary.candidateFName}}</td>
         <td>{{secretary.candidateAffiliation}}</td>
-        <td><input name="secretaryForm" type="radio" value="{{secretary.candidateID}}">
+        <td><input name="secretaryForm" type="radio" value="{{secretary.candidateID}}" required>
       </tr>
       {% endfor %}
       <h2>Treasurer</h2>
@@ -50,7 +50,7 @@
       <tr>
         <td>{{treasurer.candidateLName}}, {{treasurer.candidateFName}}</td>
         <td>{{treasurer.candidateAffiliation}}</td>
-        <td><input name="treasurerForm" type="radio" value="{{treasurer.candidateID}}">
+        <td><input name="treasurerForm" type="radio" value="{{treasurer.candidateID}}" required>
       </tr>
       {% endfor %}
       <h2>Auditor</h2>
@@ -58,11 +58,14 @@
       <tr>
         <td>{{auditor.candidateLName}}, {{auditor.candidateFName}}</td>
         <td>{{auditor.candidateAffiliation}}</td>
-        <td><input name="auditorForm" type="radio" value="{{auditor.candidateID}}">
+        <td><input name="auditorForm" type="radio" value="{{auditor.candidateID}}" required>
       </tr>
       {% endfor %}
     </tbody>
     <br><input type="submit" value="Submit">
+    {% if error %}
+    <p> Please complete all fields in the form. </p>
+    {% endif %}
   </form>
 </body>
 
