@@ -216,27 +216,22 @@ def validate_choices(requestform):
 
     if Candidate.query.filter_by(candidateBatch=session['userBatch']).filter_by(candidatePosition=2000).filter_by(candidateID=choicePresident).first():
         session['userPresident'] = choicePresident
-        session['userTime'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     else:
         isValid = False
     if Candidate.query.filter_by(candidateBatch=session['userBatch']).filter_by(candidatePosition=2001).filter_by(candidateID=choiceVicePresident).first():
         session['userVicePresident'] = choiceVicePresident
-        session['userTime'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     else:
         isValid = False
     if Candidate.query.filter_by(candidateBatch=session['userBatch']).filter_by(candidatePosition=2002).filter_by(candidateID=choiceSecretary).first():
         session['userSecretary'] = choiceSecretary
-        session['userTime'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     else:
         isValid = False
     if Candidate.query.filter_by(candidateBatch=session['userBatch']).filter_by(candidatePosition=2003).filter_by(candidateID=choiceTreasurer).first():
         session['userTreasurer'] = choiceTreasurer
-        session['userTime'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     else:
         isValid = False
     if Candidate.query.filter_by(candidateBatch=session['userBatch']).filter_by(candidatePosition=2004).filter_by(candidateID=choiceAuditor).first():
         session['userAuditor'] = choiceAuditor
-        session['userTime'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     else:
         isValid = False
     return isValid
@@ -244,9 +239,11 @@ def validate_choices(requestform):
 @app.route('/vote', methods=['GET', 'POST'])
 def vote_page():
     error = False
+    session['formValid'] = False
     #PROCESS VOTE REQUESTS
     if request.method == 'POST':
         if validate_choices(requestform=request.form):
+            session['formValid'] = True
             return redirect(url_for('verify_page'))
         else:
             error=True
@@ -268,15 +265,25 @@ def vote_page():
 
     return redirect(url_for('login_page'))
 
+def commit_ballot():
+    Ballot.query.filter_by(ballotID=session['userID']).first().ballotPresident = session['userPresident']
+    Ballot.query.filter_by(ballotID=session['userID']).first().ballotVicePresident = session['userVicePresident']
+    Ballot.query.filter_by(ballotID=session['userID']).first().ballotSecretary = session['userSecretary']
+    Ballot.query.filter_by(ballotID=session['userID']).first().ballotTreasurer = session['userTreasurer']
+    Ballot.query.filter_by(ballotID=session['userID']).first().ballotAuditor = session['userAuditor']
+    Ballot.query.filter_by(ballotID=session['userID']).first().ballotTime = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    Ballot.query.filter_by(ballotID=session['userID']).first().ballotIsComplete = True
+    database.session.commit()
+
+def commit_candidate():
+
 @app.route('/verify', methods=['GET', 'POST'])
 def verify_page():
     #SAVE VOTES
     if request.method == 'POST':
-        #choicePresident = Candidate.query.filter_by(candidateID=session['userPresident']).first()
-        #choiceVicePresident = Candidate.query.filter_by(candidateID=session['userVicePresident']).first()
-        #choiceSecretary = Candidate.query.filter_by(candidateID=session['userSecretary']).first()
-        #choiceTreasurer = Candidate.query.filter_by(candidateID=session['userTreasurer']).first()
-        #choiceAuditor = Candidate.query.filter_by(candidateID=session['userAuditor']).first()
+        if session['formValid']:
+            commit_ballot()
+            return redirect(url_for('logout_page'))
 
         #choicePresident.candidateTotalVotes = choicePresident.candidateTotalVotes + 1
         #choicePresident.candidateTime = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
@@ -288,9 +295,6 @@ def verify_page():
         #choiceTreasurer.candidateTime = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         #choiceAuditor.candidateTotalVotes = choiceAuditor.candidateTotalVotes + 1
         #choiceAuditor.candidateTime = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-
-        database.session.commit()
-        return redirect(url_for('logout_page'))
 
     if validate_session():
         choicePresident = Candidate.query.filter_by(candidateID=session['userPresident']).first()
@@ -321,7 +325,11 @@ def logout_page():
 
 @app.route('/debug')
 def debug():
-    return load_session_data(session['userID'])
+    result = [
+        ballot_schema.dump(ballot).data
+        for ballot in Ballot.query.all()
+    ]
+    return jsonify(result)
 
 if __name__ == "__main__":
     app.run()
