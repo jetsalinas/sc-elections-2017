@@ -105,7 +105,7 @@ with open("ballotlist.csv") as ballot_csv:
             ballotSecretary = None,
             ballotTreasurer = None,
             ballotAuditor = None,
-            ballotTime = datetime.now().strftime("%Y-%m-%dT%H:%M:%SZ")
+            ballotTime = datetime.now().strftime("%Y-%m-%dT%H:%M:%SZ"),
             ballotIsComplete = False
         ))
 
@@ -121,7 +121,7 @@ with open("candidatelist.csv") as candidate_csv:
             candidateLName = row[4],
             candidateFName = row[5],
             candidateTotalVotes = 0,
-            candidateTime = datetime.now().strftime("%Y-%m-%dT%H:%M:%SZ")
+            candidateTime = datetime.now().strftime("%Y-%m-%dT%H:%M:%SZ"),
         ))
 
 securitys = []
