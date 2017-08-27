@@ -187,7 +187,6 @@ def load_session_data(userID):
 
 @app.route('/')
 def main_page():
-    return render_template('base.html')
     return redirect(url_for('login_page'))
 
 @app.route('/login', methods=['GET', 'POST'])
