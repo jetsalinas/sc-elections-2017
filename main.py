@@ -105,7 +105,7 @@ with open("ballotlist.csv") as ballot_csv:
             ballotSecretary = None,
             ballotTreasurer = None,
             ballotAuditor = None,
-            ballotTime = datetime.now().strftime("%Y-%m-%dT%H:%M:%SZ")
+            ballotTime = datetime.now().strftime("%Y-%m-%dT%H:%M:%SZ"),
             ballotIsComplete = False
         ))
 
@@ -346,6 +346,11 @@ def verify_page():
             return render_template('verify.html', choicePresident=choicePresident, choiceVicePresident=choiceVicePresident, choiceSecretary=choiceSecretary, choiceTreasurer=choiceTreasurer, choiceAuditor=choiceAuditor)
         else:
             return redirect(url_for('vote_page'))
+    return redirect(url_for('login_page'))
+
+@app.route('/logout')
+def logout():
+    clear_session()
     return redirect(url_for('login_page'))
 
 @app.route('/debug/ballots')
