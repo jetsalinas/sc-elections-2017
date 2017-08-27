@@ -348,6 +348,11 @@ def verify_page():
             return redirect(url_for('vote_page'))
     return redirect(url_for('login_page'))
 
+@app.route('/logout')
+def logout():
+    clear_session()
+    return redirect(url_for('login_page'))
+
 @app.route('/debug/ballots')
 def debug():
     result = [
