@@ -9,10 +9,82 @@
   <meta name="description" content="Voting page for Student Elections 2017">
 
   <title>Student Elections 2017 - Vote</title>
+
+  <!-- Tachyons -->
+  <link rel="stylesheet" href="https://unpkg.com/tachyons/css/tachyons.min.css">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
 </head>
 
-<body>
-  <form action='/vote' method='POST'>
+<body class="sans-serif">
+
+  <div class="fixed w-100 top-0">
+    {% if error %}
+      <div>
+        <div class="bg-washed-red ba bt-0 b--light-red br--bottom br2 measure center pv3 ph3 black-70" role="alert">
+        <i class="fa fa-times fa-lg mr2"></i>Please cast your votes for all positions.
+      </div>
+    {% elif fromVote %}
+      <div class="bg-washed-green ba bt-0 b--green br--bottom br2 measure center pv3 ph3 black-70" role="alert">
+        <i class="fa fa-check fa-lg mr2"></i>Thanks for voting!
+      </div>
+    {% endif %}
+  </div>
+
+  <main class="vh-100 dt w-100">
+    <div class="dtc v-mid ph3 ph4-l tc">
+      <form action="/vote" method="POST" class="measure center ba b--black-20 br2 pv5 ph6">
+        <h1 class="f4">Ballot</h1>
+
+        <!-- President -->
+        <fieldset id="president" class="ba b--transparent ph0 mh0 tl">
+          <legend class="fw7 mb2">President</legend>
+          {% for president in presidentList %}
+          <input class = "radioButton" name="presidentForm" type="radio" value="{{president.candidateID}}" {%if session.userPresident==president.candidateID %} checked {% endif %} required> {{president.candidateLName}}, {{president.candidateFName}} ({{president.candidateAffiliation}})
+          {% endfor %}
+        </fieldset>
+
+        <!-- Vice President -->
+        <fieldset id="vice-president" class="ba b--transparent ph0 mh0 tl">
+          <legend class="fw7 mb2">President</legend>
+          {% for vicePresident in vicePresidentList %}
+          <input class = "radioButton" name="vicePresidentForm" type="radio" value="{{vicePresident.candidateID}}" {%if session.userVicePresident==vicePresident.candidateID %} checked {% endif %} required> {{vicePresident.candidateLName}}, {{vicePresident.candidateFName}} ({{vicePresident.candidateAffiliation}})
+          {% endfor %}
+        </fieldset>
+
+        <!-- Secretary -->
+        <fieldset id="secretary" class="ba b--transparent ph0 mh0 tl">
+          <legend class="fw7 mb2">President</legend>
+          {% for secretary in secretaryList %}
+          <input class = "radioButton" name="secretaryForm" type="radio" value="{{secretary.candidateID}}" {%if session.userSecretary==secretary.candidateID %} checked {% endif %} required> {{secretary.candidateLName}}, {{secretary.candidateFName}} ({{secretary.candidateAffiliation}})
+          {% endfor %}
+        </fieldset>
+
+        <!-- Treasurer -->
+        <fieldset id="treasurer" class="ba b--transparent ph0 mh0 tl">
+          <legend class="fw7 mb2">President</legend>
+          {% for treasurer in treasurerList %}
+          <input class = "radioButton" name="treasurerForm" type="radio" value="{{treasurer.candidateID}}" {%if session.userTreasurer==treasurer.candidateID %} checked {% endif %} required> {{treasurer.candidateLName}}, {{treasurer.candidateFName}} ({{treasurer.candidateAffiliation}})
+          {% endfor %}
+        </fieldset>
+
+        <!-- Auditor -->
+        <fieldset id="auditor" class="ba b--transparent ph0 mh0 tl">
+          <legend class="fw7 mb2">President</legend>
+          {% for auditor in auditorList %}
+          <input class = "radioButton" name="auditorForm" type="radio" value="{{auditor.candidateID}}" {%if session.userAuditor==auditor.candidateID %} checked {% endif %} required> {{auditor.candidateLName}}, {{auditor.candidateFName}} ({{auditor.candidateAffiliation}})
+          {% endfor %}
+        </fieldset>
+
+        <input class="b ph3 pv2 input-reset ba b--black bg-transparent dim pointer f6 dib" type="submit" value="Cast vote">
+
+      </form>
+    </div>
+  </main>
+
+  <!-- <form action='/vote' method='POST'>
   <div class="intro-header" id="home">
     <div class="container">
       <div class="row">
@@ -27,11 +99,6 @@
       </div>
     </div>
   </div>
-  {% if error %}
-  <div class="alert alert-danger" role="alert">
-      Please complete all fields in the form
-  </div>
-  {% endif %}
     <div class="content-section-a">
       <div class="container">
         <div class="row">
@@ -142,7 +209,8 @@
         </div>
       </div>
     </div>
-  </form>
+  </form> -->
+
 </body>
 
 <script type="text/javascript">

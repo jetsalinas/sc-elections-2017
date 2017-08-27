@@ -8,104 +8,50 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Verification page for Student Elections 2017">
   <title>Student Elections 2017 - Verify</title>
+
+  <!-- Tachyons -->
+  <link rel="stylesheet" href="https://unpkg.com/tachyons/css/tachyons.min.css">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
-<body>
-<div class="intro-header" id="home">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-12">
-        <div class="intro-message">
-          <h1>Verify your Votes</h1>
-          <hr class="intro-divider">
-          <form method='POST' action="/verify">
-            {% if not session.userIsComplete %}
-              <a href="/vote"><button type="button" class="btn btn-warning">Change votes</button></a>
-              <input type="submit" value="Submit Votes" class="btn btn-success">
-            {% else %}
-              <input type="submit" value="Logout" class="btn btn-danger">
-            {% endif %}
-          </form>
-        </div>
+<body class="sans-serif">
+
+  <main class="vh-100 dt w-100">
+    <div class="dtc v-mid ph3 ph4-l">
+      <div class="measure-wide center ba b--black-20 br2 pv5 ph6">
+        <h1 class="f4">
+          {% if not session.userIsComplete %}
+          Check your vote
+          {% else %}
+          Your vote
+          {% endif %}
+        </h1>
+        <dl class="lh-title mt0">
+          <dt class="f6 b">President</dt>
+          <dd class="ml0 mb2">{{choicePresident.candidateLName}}, {{choicePresident.candidateFName}} ({{choicePresident.candidateAffiliation}})</dd>
+          <dt class="f6 b">Vice President</dt>
+          <dd class="ml0 mb2">{{choiceVicePresident.candidateLName}}, {{choiceVicePresident.candidateFName}} ({{choiceVicePresident.candidateAffiliation}})</dd>
+          <dt class="f6 b">Secretary</dt>
+          <dd class="ml0 mb2">{{choiceSecretary.candidateLName}}, {{choiceSecretary.candidateFName}} ({{choiceSecretary.candidateAffiliation}})</dd>
+          <dt class="f6 b">Treasurer</dt>
+          <dd class="ml0 mb2">{{choiceTreasurer.candidateLName}}, {{choiceTreasurer.candidateFName}} ({{choiceTreasurer.candidateAffiliation}})</dd>
+          <dt class="f6 b">Auditor</dt>
+          <dd class="ml0">{{choiceAuditor.candidateLName}}, {{choiceAuditor.candidateFName}} ({{choiceAuditor.candidateAffiliation}})</dd>
+        </dl>
+        <form action="/verify" method="POST">
+          {% if not session.userIsComplete %}
+          <a href="/vote"><button type="button" class="b ph3 pv2 input-reset ba b--black bg-transparent dim pointer f6 dib">Change vote</button></a>
+          <input class="b ph3 pv2 input-reset ba b--black bg-transparent dim pointer f6 dib" type="submit" value="Cast vote">
+          {% else %}
+          <input type="submit" value="Logout" class="btn btn-danger">
+          {% endif %}
+        </form>
       </div>
     </div>
-  </div>
-</div>
-  <div class="content-section-a">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-2">
-          <hr class="section-heading-spacer">
-          <div class="clearfix"></div>
-          <h2 class="section-heading">President</h2>
-        </div>
-        <div class="ml-md-auto col-lg-8">
-          <p>{{choicePresident.candidateLName}}, {{choicePresident.candidateFName}}</p>
-          <p>{{choicePresident.candidateAffiliation}}</p>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="content-section-b">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-2">
-          <hr class="section-heading-spacer">
-          <div class="clearfix"></div>
-           <h2 class="section-heading">Vice President</h2>
-        </div>
-        <div class="ml-md-auto col-lg-8">
-          <p>{{choiceVicePresident.candidateLName}}, {{choiceVicePresident.candidateFName}}</p>
-          <p>{{choiceVicePresident.candidateAffiliation}}</p>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="content-section-a">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-2">
-          <hr class="section-heading-spacer">
-          <div class="clearfix"></div>
-           <h2 class="section-heading">Secretary</h2>
-        </div>
-        <div class="ml-md-auto col-lg-8">
-          <p>{{choiceSecretary.candidateLName}}, {{choiceSecretary.candidateFName}}</p>
-          <p>{{choiceSecretary.candidateAffiliation}}</p>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="content-section-b">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-2">
-          <hr class="section-heading-spacer">
-          <div class="clearfix"></div>
-           <h2 class="section-heading">Treasurer</h2>
-        </div>
-        <div class="ml-md-auto col-lg-8">
-          <p>{{choiceTreasurer.candidateLName}}, {{choiceTreasurer.candidateFName}}</p>
-          <p>{{choiceTreasurer.candidateAffiliation}}</p>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="content-section-a">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-2">
-          <hr class="section-heading-spacer">
-          <div class="clearfix"></div>
-           <h2 class="section-heading">Auditor</h2>
-        </div>
-        <div class="ml-md-auto col-lg-8">
-          <p>{{choiceAuditor.candidateLName}}, {{choiceAuditor.candidateFName}}</p>
-          <p>{{choiceAuditor.candidateAffiliation}}</p>
-        </div>
-      </div>
-    </div>
-  </div>
+  </main>
+
 </body>
 
 </html>

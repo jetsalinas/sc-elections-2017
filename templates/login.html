@@ -22,7 +22,8 @@
   <div class="fixed w-100 top-0">
     {% if error %}
       <div>
-        Username or password is incorrect.
+        <div class="bg-washed-red ba bt-0 b--light-red br--bottom br2 measure center pv3 ph3 black-70" role="alert">
+        <i class="fa fa-times fa-lg mr2"></i>Username or password is incorrect.
       </div>
     {% elif fromVote %}
       <div class="bg-washed-green ba bt-0 b--green br--bottom br2 measure center pv3 ph3 black-70" role="alert">
@@ -34,7 +35,7 @@
   <main class="vh-100 dt w-100">
     <div class="dtc v-mid ph3 ph4-l tc">
       <form action="/login" method="POST" class="measure center ba b--black-20 br2 pv5 ph6">
-        <h1 class="f4">Batch Council Elections</h1>
+        <h1 class="f4">Cast your vote</h1>
         <fieldset id="signin" class="ba b--transparent ph0 mh0 tl">
           <div class="mt3">
             <label class="db fw6 lh-copy f6 tl pb1" for="username">Username</label>
@@ -45,9 +46,7 @@
             <input class="pa2 input-reset ba b--black-10 bg-transparent w-100" type="password" name="password"  id="password">
           </div>
         </fieldset>
-        <div class="">
-          <input class="b ph3 pv2 input-reset ba b--black bg-transparent dim pointer f6 dib" type="submit" value="Sign in">
-        </div>
+        <input class="b ph3 pv2 input-reset ba b--black bg-transparent dim pointer f6 dib" type="submit" value="Sign in">
       </form>
     </div>
   </main>
