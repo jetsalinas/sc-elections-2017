@@ -212,6 +212,7 @@ def login_page():
     except:
         session['fromVote'] = False
         fromVote = session['fromVote']
+    clear_session()
     return render_template('login.html', error=error, fromVote=fromVote)
 
 def validate_choices(requestform):
@@ -322,6 +323,7 @@ def verify_page():
                 commit_candidate()
                 clear_session()
                 session['fromVote'] = True
+        clear_session()
         return redirect(url_for('login_page'))
 
     if validate_session():

@@ -17,7 +17,7 @@
 
     <!-- Boostrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
-    
+
     <!-- Custom Fonts -->
     <link href="http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
 
@@ -40,6 +40,7 @@
                 <div class="alert alert-danger" role="alert">
                     Your username or password is not recognized
                 </div>
+              {% endif %}
               {% if fromVote %}
                 <div class="alert alert-success" role="alert">
                     Thank you for voting!
@@ -47,7 +48,7 @@
               {% endif %}
               <div class = "row">
                 <div class = "col-md-5 text-right">
-                    Username: 
+                    Username:
                 </div>
                 <div class = "ml-md-auto col-md-7 text-left">
                     <input type="text" name="username"><br>
@@ -55,7 +56,7 @@
               </div>
               <div class = "row">
                   <div class = "col-md-5 text-right">
-                      Password: 
+                      Password:
                   </div>
                   <div class = "ml-md-auto col-md-7 text-left">
                       <input type="password" name="password"><br>
