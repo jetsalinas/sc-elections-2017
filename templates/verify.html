@@ -9,52 +9,114 @@
     <meta name="description" content="Verification page for Student Elections 2017">
 
     <title>Student Elections 2017 - Verify</title>
+<!-- Boostrap JS/Scripts -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
 
-    <!-- Scripts -->
+<!-- Boostrap CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
 
-    <!-- CSS -->
+<!-- Custom Fonts -->
+<link href="http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+
+<!-- Custom CSS -->
+<link href="assets/css/landing-page.css" rel="stylesheet">
 
 </head>
 
 <body>
-  <h1>Verification page for Student Elections 2017</h1>
-  <h2>Your Votes</h2>
-  <table>
-    <tr>
-      <th>Position</th>
-      <th>Name</th>
-      <th>Party</th>
-    </tr>
-    <tr>
-      <td>President</td>
-      <td>{{choicePresident.candidateLName}}, {{choicePresident.candidateFName}}</td>
-      <td>{{choicePresident.candidateAffiliation}}</td>
-    </tr>
-    <tr>
-      <td>Vice President</td>
-      <td>{{choiceVicePresident.candidateLName}}, {{choiceVicePresident.candidateFName}}</td>
-      <td>{{choiceVicePresident.candidateAffiliation}}</td>
-    </tr>
-    <tr>
-      <td>Secretary</td>
-      <td>{{choiceSecretary.candidateLName}}, {{choiceSecretary.candidateFName}}</td>
-      <td>{{choiceSecretary.candidateAffiliation}}</td>
-    </tr>
-    <tr>
-      <td>Treasurer</td>
-      <td>{{choiceTreasurer.candidateLName}}, {{choiceTreasurer.candidateFName}}</td>
-      <td>{{choiceTreasurer.candidateAffiliation}}</td>
-    </tr>
-    <tr>
-      <td>Auditor</td>
-      <td>{{choiceAuditor.candidateLName}}, {{choiceAuditor.candidateFName}}</td>
-      <td>{{choiceAuditor.candidateAffiliation}}</td>
-    </tr>
-  </table>
-
-  <form method='POST' action="/verify">
-    <input type="submit" value="Submit Vote">
-  </form>
+<div class="intro-header" id="home">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="intro-message">
+          <h1>Verify your Votes</h1>
+          <hr class="intro-divider">
+          <form method='POST' action="/verify">
+            <input type="submit" value="Change Votes" class="btn btn-warning">
+            <input type="submit" value="Submit Votes" class="btn btn-success">
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+  <div class="content-section-a">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-2">
+          <hr class="section-heading-spacer">
+          <div class="clearfix"></div>
+          <h2 class="section-heading">President</h2>
+        </div>
+        <div class="ml-md-auto col-lg-8">
+          <p>{{choicePresident.candidateLName}}, {{choicePresident.candidateFName}}</p>
+          <p>{{choicePresident.candidateAffiliation}}</p>
+        </div>
+      </div>  
+    </div>    
+  </div>
+  <div class="content-section-b">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-2">
+          <hr class="section-heading-spacer">
+          <div class="clearfix"></div>
+           <h2 class="section-heading">Vice President</h2>
+        </div>
+        <div class="ml-md-auto col-lg-8">
+          <p>{{choiceVicePresident.candidateLName}}, {{choiceVicePresident.candidateFName}}</p>
+          <p>{{choiceVicePresident.candidateAffiliation}}</p>
+        </div>
+      </div>  
+    </div>    
+  </div>
+  <div class="content-section-a">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-2">
+          <hr class="section-heading-spacer">
+          <div class="clearfix"></div>
+           <h2 class="section-heading">Secretary</h2>
+        </div>
+        <div class="ml-md-auto col-lg-8">
+          <p>{{choiceSecretary.candidateLName}}, {{choiceSecretary.candidateFName}}</p>
+          <p>{{choiceSecretary.candidateAffiliation}}</p>
+        </div>
+      </div>  
+    </div>    
+  </div>
+  <div class="content-section-b">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-2">
+          <hr class="section-heading-spacer">
+          <div class="clearfix"></div>
+           <h2 class="section-heading">Treasurer</h2>
+        </div>
+        <div class="ml-md-auto col-lg-8">
+          <p>{{choiceTreasurer.candidateLName}}, {{choiceTreasurer.candidateFName}}</p>
+          <p>{{choiceTreasurer.candidateAffiliation}}</p>
+        </div>
+      </div>  
+    </div>    
+  </div>
+  <div class="content-section-a">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-2">
+          <hr class="section-heading-spacer">
+          <div class="clearfix"></div>
+           <h2 class="section-heading">Auditor</h2>
+        </div>
+        <div class="ml-md-auto col-lg-8">
+          <p>{{choiceAuditor.candidateLName}}, {{choiceAuditor.candidateFName}}</p>
+          <p>{{choiceAuditor.candidateAffiliation}}</p>
+        </div>
+      </div>  
+    </div>    
+  </div>
 </body>
 
 </html>
