@@ -121,7 +121,7 @@ with open("candidatelist.csv") as candidate_csv:
             candidateLName = row[4],
             candidateFName = row[5],
             candidateTotalVotes = 0,
-            candidateTime = datetime.now().strftime("%Y-%m-%dT%H:%M:%SZ")
+            candidateTime = datetime.now().strftime("%Y-%m-%dT%H:%M:%SZ"),
         ))
 
 credentials = []
@@ -129,9 +129,9 @@ with open("securitylist.csv") as security_csv:
     security_list = csv.reader(security_csv)
     for row in security_list:
         credentials.append(Security(
-        securityID = row[0],
-        securityUName = row[1],
-        securityPassword = row[2]
+            securityID = row[0],
+            securityUName = row[1],
+            securityPassword = row[2]
         ))
 
 #CLEARS DATABASE FROM FRESH RUN: HEROKU TESTING
