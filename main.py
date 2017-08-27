@@ -129,9 +129,9 @@ with open("securitylist.csv") as security_csv:
     security_list = csv.reader(security_csv)
     for row in security_list:
         securitys.append(Security(
-        securityID = row[0],
-        securityUName = row[1],
-        securityPassword = row[2]
+            securityID = row[0],
+            securityUName = row[1],
+            securityPassword = row[2]
         ))
 
 #CLEARS DATABASE FROM FRESH RUN: HEROKU TESTING
