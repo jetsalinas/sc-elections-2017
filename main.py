@@ -96,17 +96,17 @@ with open("ballotlist.csv") as ballot_csv:
     ballot_list = csv.reader(ballot_csv)
     for row in ballot_list:
         ballots.append(Ballot(
-        ballotID = row[0],
-        ballotBatch = row[1],
-        ballotLName = row[2],
-        ballotFName = row[3],
-        ballotPresident = None,
-        ballotVicePresident = None,
-        ballotSecretary = None,
-        ballotTreasurer = None,
-        ballotAuditor = None,
-        ballotTime = datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
-        ballotIsComplete = False
+            ballotID = row[0],
+            ballotBatch = row[1],
+            ballotLName = row[2],
+            ballotFName = row[3],
+            ballotPresident = None,
+            ballotVicePresident = None,
+            ballotSecretary = None,
+            ballotTreasurer = None,
+            ballotAuditor = None,
+            ballotTime = datetime.now().strftime("%Y-%m-%dT%H:%M:%SZ")
+            ballotIsComplete = False
         ))
 
 candidates = []
@@ -114,14 +114,14 @@ with open("candidatelist.csv") as candidate_csv:
     candidate_list = csv.reader(candidate_csv)
     for row in candidate_list:
         candidates.append(Candidate(
-        candidateID = row[0],
-        candidatePosition = row[1],
-        candidateAffiliation = row[2],
-        candidateBatch = row[3],
-        candidateLName = row[4],
-        candidateFName = row[5],
-        candidateTotalVotes = 0,
-        candidateTime = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            candidateID = row[0],
+            candidatePosition = row[1],
+            candidateAffiliation = row[2],
+            candidateBatch = row[3],
+            candidateLName = row[4],
+            candidateFName = row[5],
+            candidateTotalVotes = 0,
+            candidateTime = datetime.now().strftime("%Y-%m-%dT%H:%M:%SZ")
         ))
 
 securitys = []
@@ -292,7 +292,7 @@ def commit_ballot():
     Ballot.query.filter_by(ballotID=session['userID']).first().ballotSecretary = session['userSecretary']
     Ballot.query.filter_by(ballotID=session['userID']).first().ballotTreasurer = session['userTreasurer']
     Ballot.query.filter_by(ballotID=session['userID']).first().ballotAuditor = session['userAuditor']
-    Ballot.query.filter_by(ballotID=session['userID']).first().ballotTime = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    Ballot.query.filter_by(ballotID=session['userID']).first().ballotTime = datetime.now().strftime("%Y-%m-%dT%H:%M:%SZ")
     Ballot.query.filter_by(ballotID=session['userID']).first().ballotIsComplete = True
     session['userIsComplete'] = True
     database.session.commit()
@@ -303,7 +303,7 @@ def commit_candidate():
     Candidate.query.filter_by(candidateID=session['userSecretary']).first().candidateTotalVotes += 1
     Candidate.query.filter_by(candidateID=session['userTreasurer']).first().candidateTotalVotes += 1
     Candidate.query.filter_by(candidateID=session['userAuditor']).first().candidateTotalVotes += 1
-    Candidate.query.filter_by(candidateID=session['userPresident']).first().candidateTime = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    Candidate.query.filter_by(candidateID=session['userPresident']).first().candidateTime = datetime.now().strftime("%Y-%m-%dT%H:%M:%SZ")
     database.session.commit()
 
 def clear_session():
@@ -346,7 +346,7 @@ def verify_page():
             return redirect(url_for('vote_page'))
     return redirect(url_for('login_page'))
 
-@app.route('/debug')
+@app.route('/debug/ballots')
 def debug():
     result = [
         ballot_schema.dump(ballot).data
@@ -354,7 +354,7 @@ def debug():
     ]
     return jsonify(result)
 
-@app.route('/debug2')
+@app.route('/debug/candidates')
 def debug2():
     result = [
         candidate_schema.dump(candidate).data
