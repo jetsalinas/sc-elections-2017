@@ -42,7 +42,7 @@
         <fieldset id="president" class="ba b--transparent ph0 mh0 tl">
           <legend class="fw7 mb2">President</legend>
           {% for president in presidentList %}
-          <input class = "radioButton" name="presidentForm" type="radio" value="{{president.candidateID}}" {%if session.userPresident==president.candidateID %} checked {% endif %} required> {{president.candidateLName}}, {{president.candidateFName}} ({{president.candidateAffiliation}})
+          <input class = "radioButton" name="presidentForm" type="radio" value="{{president.candidateID}}" {%if session.userPresident==president.candidateID %} checked {% endif %} required> {{president.candidateLName}}, {{president.candidateFName}} ({{president.candidateAffiliation}}) <br>
           {% endfor %}
         </fieldset>
 
@@ -50,7 +50,7 @@
         <fieldset id="vice-president" class="ba b--transparent ph0 mh0 tl">
           <legend class="fw7 mb2">President</legend>
           {% for vicePresident in vicePresidentList %}
-          <input class = "radioButton" name="vicePresidentForm" type="radio" value="{{vicePresident.candidateID}}" {%if session.userVicePresident==vicePresident.candidateID %} checked {% endif %} required> {{vicePresident.candidateLName}}, {{vicePresident.candidateFName}} ({{vicePresident.candidateAffiliation}})
+          <input class = "radioButton" name="vicePresidentForm" type="radio" value="{{vicePresident.candidateID}}" {%if session.userVicePresident==vicePresident.candidateID %} checked {% endif %} required> {{vicePresident.candidateLName}}, {{vicePresident.candidateFName}} ({{vicePresident.candidateAffiliation}}) <br>
           {% endfor %}
         </fieldset>
 
@@ -58,7 +58,7 @@
         <fieldset id="secretary" class="ba b--transparent ph0 mh0 tl">
           <legend class="fw7 mb2">President</legend>
           {% for secretary in secretaryList %}
-          <input class = "radioButton" name="secretaryForm" type="radio" value="{{secretary.candidateID}}" {%if session.userSecretary==secretary.candidateID %} checked {% endif %} required> {{secretary.candidateLName}}, {{secretary.candidateFName}} ({{secretary.candidateAffiliation}})
+          <input class = "radioButton" name="secretaryForm" type="radio" value="{{secretary.candidateID}}" {%if session.userSecretary==secretary.candidateID %} checked {% endif %} required> {{secretary.candidateLName}}, {{secretary.candidateFName}} ({{secretary.candidateAffiliation}}) <br>
           {% endfor %}
         </fieldset>
 
@@ -66,7 +66,7 @@
         <fieldset id="treasurer" class="ba b--transparent ph0 mh0 tl">
           <legend class="fw7 mb2">President</legend>
           {% for treasurer in treasurerList %}
-          <input class = "radioButton" name="treasurerForm" type="radio" value="{{treasurer.candidateID}}" {%if session.userTreasurer==treasurer.candidateID %} checked {% endif %} required> {{treasurer.candidateLName}}, {{treasurer.candidateFName}} ({{treasurer.candidateAffiliation}})
+          <input class = "radioButton" name="treasurerForm" type="radio" value="{{treasurer.candidateID}}" {%if session.userTreasurer==treasurer.candidateID %} checked {% endif %} required> {{treasurer.candidateLName}}, {{treasurer.candidateFName}} ({{treasurer.candidateAffiliation}}) <br>
           {% endfor %}
         </fieldset>
 
@@ -74,7 +74,7 @@
         <fieldset id="auditor" class="ba b--transparent ph0 mh0 tl">
           <legend class="fw7 mb2">President</legend>
           {% for auditor in auditorList %}
-          <input class = "radioButton" name="auditorForm" type="radio" value="{{auditor.candidateID}}" {%if session.userAuditor==auditor.candidateID %} checked {% endif %} required> {{auditor.candidateLName}}, {{auditor.candidateFName}} ({{auditor.candidateAffiliation}})
+          <input class = "radioButton" name="auditorForm" type="radio" value="{{auditor.candidateID}}" {%if session.userAuditor==auditor.candidateID %} checked {% endif %} required> {{auditor.candidateLName}}, {{auditor.candidateFName}} ({{auditor.candidateAffiliation}}) <br>
           {% endfor %}
         </fieldset>
 

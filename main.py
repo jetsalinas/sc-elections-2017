@@ -32,10 +32,9 @@ app = Flask(__name__)
 
 database = SQLAlchemy(app)
 marshmallow = Marshmallow(app)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///local.db'
 app.secret_key = SESSION_SECRET_KEY
 
-database.drop_all()
+
 
 #############
 #  SCHEMAS  #
@@ -134,19 +133,25 @@ with open("securitylist.csv") as security_csv:
             securityPassword = row[2]
         ))
 
-#CLEARS DATABASE FROM FRESH RUN: HEROKU TESTING
-if 'DYNO' not in os.environ:
+def clear_database():
     database.reflect()
     database.drop_all()
 
-database.create_all()
-for ballot in ballots:
-    database.session.add(ballot)
-for candidate in candidates:
-    database.session.add(candidate)
-for security in credentials:
-    database.session.add(security)
-database.session.commit()
+def start_database():
+    database.create_all()
+    for ballot in ballots:
+        database.session.add(ballot)
+    for candidate in candidates:
+        database.session.add(candidate)
+    for security in credentials:
+        database.session.add(security)
+    database.session.commit()
+
+#HEROKU: CLEARS DATABASE FROM FRESH RUN
+if 'DYNO' not in os.environ:
+    clear_database()
+
+start_database()
 
 #LOAD SCHEMAS
 ballot_schema = BallotSchema()
