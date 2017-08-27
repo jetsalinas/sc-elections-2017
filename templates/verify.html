@@ -19,8 +19,12 @@
           <h1>Verify your Votes</h1>
           <hr class="intro-divider">
           <form method='POST' action="/verify">
-            <input type="submit" value="Change Votes" class="btn btn-warning">
-            <input type="submit" value="Submit Votes" class="btn btn-success">
+            {% if not session.userIsComplete %}
+              <a href="/vote"><button type="button" class="btn btn-warning">Change votes</button></a>
+              <input type="submit" value="Submit Votes" class="btn btn-success">
+            {% else %}
+              <input type="submit" value="Logout" class="btn btn-danger">
+            {% endif %}
           </form>
         </div>
       </div>
@@ -39,8 +43,8 @@
           <p>{{choicePresident.candidateLName}}, {{choicePresident.candidateFName}}</p>
           <p>{{choicePresident.candidateAffiliation}}</p>
         </div>
-      </div>  
-    </div>    
+      </div>
+    </div>
   </div>
   <div class="content-section-b">
     <div class="container">
@@ -54,8 +58,8 @@
           <p>{{choiceVicePresident.candidateLName}}, {{choiceVicePresident.candidateFName}}</p>
           <p>{{choiceVicePresident.candidateAffiliation}}</p>
         </div>
-      </div>  
-    </div>    
+      </div>
+    </div>
   </div>
   <div class="content-section-a">
     <div class="container">
@@ -69,8 +73,8 @@
           <p>{{choiceSecretary.candidateLName}}, {{choiceSecretary.candidateFName}}</p>
           <p>{{choiceSecretary.candidateAffiliation}}</p>
         </div>
-      </div>  
-    </div>    
+      </div>
+    </div>
   </div>
   <div class="content-section-b">
     <div class="container">
@@ -84,8 +88,8 @@
           <p>{{choiceTreasurer.candidateLName}}, {{choiceTreasurer.candidateFName}}</p>
           <p>{{choiceTreasurer.candidateAffiliation}}</p>
         </div>
-      </div>  
-    </div>    
+      </div>
+    </div>
   </div>
   <div class="content-section-a">
     <div class="container">
@@ -99,8 +103,8 @@
           <p>{{choiceAuditor.candidateLName}}, {{choiceAuditor.candidateFName}}</p>
           <p>{{choiceAuditor.candidateAffiliation}}</p>
         </div>
-      </div>  
-    </div>    
+      </div>
+    </div>
   </div>
 </body>
 

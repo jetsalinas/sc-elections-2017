@@ -124,11 +124,11 @@ with open("candidatelist.csv") as candidate_csv:
             candidateTime = datetime.now().strftime("%Y-%m-%dT%H:%M:%SZ"),
         ))
 
-securitys = []
+credentials = []
 with open("securitylist.csv") as security_csv:
     security_list = csv.reader(security_csv)
     for row in security_list:
-        securitys.append(Security(
+        credentials.append(Security(
             securityID = row[0],
             securityUName = row[1],
             securityPassword = row[2]
@@ -144,7 +144,7 @@ for ballot in ballots:
     database.session.add(ballot)
 for candidate in candidates:
     database.session.add(candidate)
-for security in securitys:
+for security in credentials:
     database.session.add(security)
 database.session.commit()
 
@@ -222,6 +222,7 @@ def login_page():
     except:
         session['fromVote'] = False
         fromVote = session['fromVote']
+    clear_session()
     return render_template('login.html', error=error, fromVote=fromVote)
 
 def validate_choices(requestform):
@@ -332,6 +333,7 @@ def verify_page():
                 commit_candidate()
                 clear_session()
                 session['fromVote'] = True
+        clear_session()
         return redirect(url_for('login_page'))
 
     if validate_session():
