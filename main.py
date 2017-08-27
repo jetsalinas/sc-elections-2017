@@ -21,6 +21,7 @@ from flask import request
 from flask import session
 from flask import url_for
 
+from flask_heroku import Heroku
 from flask_marshmallow import Marshmallow
 from flask_sqlalchemy import SQLAlchemy
 
@@ -34,7 +35,11 @@ database = SQLAlchemy(app)
 marshmallow = Marshmallow(app)
 app.secret_key = SESSION_SECRET_KEY
 
-
+if 'DYNO' in os.environ:
+    import psycopg2
+    hr = Heroku(app)
+else:
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///local.db'
 
 #############
 #  SCHEMAS  #
