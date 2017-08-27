@@ -187,6 +187,7 @@ def load_session_data(userID):
 
 @app.route('/')
 def main_page():
+    return render_template('base.html')
     return redirect(url_for('login_page'))
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -301,12 +302,15 @@ def verify_page():
         return redirect(url_for('logout_page'))
 
     if validate_session():
-        choicePresident = Candidate.query.filter_by(candidateID=session['userPresident']).first()
-        choiceVicePresident = Candidate.query.filter_by(candidateID=session['userVicePresident']).first()
-        choiceSecretary = Candidate.query.filter_by(candidateID=session['userSecretary']).first()
-        choiceTreasurer = Candidate.query.filter_by(candidateID=session['userTreasurer']).first()
-        choiceAuditor = Candidate.query.filter_by(candidateID=session['userAuditor']).first()
-        return render_template('verify.html', choicePresident=choicePresident, choiceVicePresident=choiceVicePresident, choiceSecretary=choiceSecretary, choiceTreasurer=choiceTreasurer, choiceAuditor=choiceAuditor)
+        if session['formValid'] or session['userIsComplete']:
+            choicePresident = Candidate.query.filter_by(candidateID=session['userPresident']).first()
+            choiceVicePresident = Candidate.query.filter_by(candidateID=session['userVicePresident']).first()
+            choiceSecretary = Candidate.query.filter_by(candidateID=session['userSecretary']).first()
+            choiceTreasurer = Candidate.query.filter_by(candidateID=session['userTreasurer']).first()
+            choiceAuditor = Candidate.query.filter_by(candidateID=session['userAuditor']).first()
+            return render_template('verify.html', choicePresident=choicePresident, choiceVicePresident=choiceVicePresident, choiceSecretary=choiceSecretary, choiceTreasurer=choiceTreasurer, choiceAuditor=choiceAuditor)
+        else:
+            return redirect(url_for('vote_page'))
     return redirect(url_for('login_page'))
 
 def clear_session():
