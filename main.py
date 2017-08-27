@@ -1,19 +1,28 @@
 """
-    Copyright
-    Jose Salinas & Jasper Refuerzo
-    08/19/201
+Election platform for PSHS-MC Student/Batch Council elections.
+
+:Author:     Jose Salinas
+:Author:     Jasper Refuerzo
+:Author:     Maded Batara III
+:Version:    v20170827
 """
 
-import os
 import csv
-from keys import SESSION_SECRET_KEY
+import os
+
 from datetime import datetime
+from keys import SESSION_SECRET_KEY
 
-from flask import Flask, render_template, jsonify
-from flask import session, request, redirect, url_for
+from flask import Flask
+from flask import jsonify
+from flask import redirect
+from flask import render_template
+from flask import request
+from flask import session
+from flask import url_for
 
-from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
+from flask_sqlalchemy import SQLAlchemy
 
 #############
 #  CONFIGS  #
@@ -27,6 +36,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///local.db'
 app.secret_key = SESSION_SECRET_KEY
 
 database.drop_all()
+
 #############
 #  SCHEMAS  #
 #############
@@ -49,8 +59,8 @@ class Ballot(database.Model):
     ballotIsComplete = database.Column(database.Boolean)
 
 class BallotSchema(marshmallow.ModelSchema):
-        class Meta:
-            model = Ballot
+    class Meta:
+        model = Ballot
 
 class Candidate(database.Model):
     __tablename__ = "candidates"
@@ -80,7 +90,7 @@ class SecuritySchema(marshmallow.ModelSchema):
     class Meta:
         model = Security
 
-#LOAD DATABASE
+# LOAD DATABASE
 ballots =[]
 with open("ballotlist.csv") as ballot_csv:
     ballot_list = csv.reader(ballot_csv)
