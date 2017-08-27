@@ -365,4 +365,4 @@ def debug2():
     return jsonify(result)
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)
