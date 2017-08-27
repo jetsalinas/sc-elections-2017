@@ -10,63 +10,171 @@
 
     <title>Student Elections 2017 - Vote</title>
 
-    <!-- Scripts -->
+    <!-- Boostrap JS/Scripts -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
 
-    <!-- CSS -->
+    <!-- Boostrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    
+    <!-- Custom Fonts -->
+    <link href="http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+
+    <!-- Custom CSS -->
+    <link href="assets/css/landing-page.css" rel="stylesheet">
 
 </head>
 
 <body>
-  <h1>Voting page for Student Elections 2017</h1>
   <form action='/vote' method='POST'>
-    <tbody>
-      <th></th>
-      <h2>President</h2>
-      {% for president in presidentList %}
-      <tr>
-        <td>{{president.candidateLName}}, {{president.candidateFName}}</td>
-        <td>{{president.candidateAffiliation}}</td>
-        <td><input name="presidentForm" type="radio" value="{{president.candidateID}}" {%if session.userPresident==president.candidateID %} checked {% endif %} required>
-      </tr>
-      {% endfor %}
-      <h2>Vice President</h2>
-      {% for vicePresident in vicePresidentList %}
-      <tr>
-        <td>{{vicePresident.candidateLName}}, {{vicePresident.candidateFName}}</td>
-        <td>{{vicePresident.candidateAffiliation}}</td>
-        <td><input name="vicePresidentForm" type="radio" value="{{vicePresident.candidateID}}" {%if session.userVicePresident==vicePresident.candidateID %} checked {% endif %} required>
-      </tr>
-      {% endfor %}
-      <h2>Secretary</h2>
-      {% for secretary in secretaryList %}
-      <tr>
-        <td>{{secretary.candidateLName}}, {{secretary.candidateFName}}</td>
-        <td>{{secretary.candidateAffiliation}}</td>
-        <td><input name="secretaryForm" type="radio" value="{{secretary.candidateID}}" {%if session.userSecretary==secretary.candidateID %} checked {% endif %} required>
-      </tr>
-      {% endfor %}
-      <h2>Treasurer</h2>
-      {% for treasurer in treasurerList %}
-      <tr>
-        <td>{{treasurer.candidateLName}}, {{treasurer.candidateFName}}</td>
-        <td>{{treasurer.candidateAffiliation}}</td>
-        <td><input name="treasurerForm" type="radio" value="{{treasurer.candidateID}}" {%if session.userTreasurer==treasurer.candidateID %} checked {% endif %} required>
-      </tr>
-      {% endfor %}
-      <h2>Auditor</h2>
-      {% for auditor in auditorList %}
-      <tr>
-        <td>{{auditor.candidateLName}}, {{auditor.candidateFName}}</td>
-        <td>{{auditor.candidateAffiliation}}</td>
-        <td><input name="auditorForm" type="radio" value="{{auditor.candidateID}}" {%if session.userAuditor==auditor.candidateID %} checked {% endif %} required>
-      </tr>
-      {% endfor %}
-    </tbody>
-    <br><input type="submit" value="Submit">
-    {% if error %}
-    <p> Please complete all fields in the form. </p>
-    {% endif %}
+  <div class="intro-header" id="home">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+           <div class="intro-message">
+            <h1>Vote Wisely</h1>
+            <hr class="intro-divider">
+            <h3>If you wish to finalize your votes:</h3>
+            <input type="submit" value="Finalize Votes" class="btn btn-success">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% if error %}
+  <div class="alert alert-danger" role="alert">
+      Please complete all fields in the form
+  </div>
+  {% endif %}
+    <div class="content-section-a">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-2">
+            <hr class="section-heading-spacer">
+            <div class="clearfix"></div>
+            <h2 class="section-heading">President</h2>
+          </div>
+          <div class="ml-md-auto col-lg-8">
+            <table>
+              {% for president in presidentList %}
+              <tr>
+                <td>{{president.candidateLName}}, {{president.candidateFName}}</td>
+                <td>{{president.candidateAffiliation}}</td>
+                <td><input class = "radioButton" name="presidentForm" type="radio" value="{{president.candidateID}}" {%if session.userPresident==president.candidateID %} checked {% endif %} required>
+              </tr>
+              {% endfor %}
+            </table>
+          </div>
+        </div>  
+      </div>    
+    </div>
+    <div class="content-section-b">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-2">
+            <hr class="section-heading-spacer">
+            <div class="clearfix"></div>
+             <h2 class="section-heading">Vice President</h2>
+          </div>
+          <div class="ml-md-auto col-lg-8">
+            <table>
+              {% for vicePresident in vicePresidentList %}
+              <tr>
+                <td>{{vicePresident.candidateLName}}, {{vicePresident.candidateFName}}</td>
+                <td>{{vicePresident.candidateAffiliation}}</td>
+                <td><input class = "radioButton" name="vicePresidentForm" type="radio" value="{{vicePresident.candidateID}}" {%if session.userVicePresident==vicePresident.candidateID %} checked {% endif %} required>
+              </tr>
+              {% endfor %}
+            </table>
+          </div>
+        </div>  
+      </div>    
+    </div>
+    <div class="content-section-a">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-2">
+            <hr class="section-heading-spacer">
+            <div class="clearfix"></div>
+             <h2 class="section-heading">Secretary</h2>
+          </div>
+          <div class="ml-md-auto col-lg-8">
+            <table>
+              {% for secretary in secretaryList %}
+              <tr>
+                <td>{{secretary.candidateLName}}, {{secretary.candidateFName}}</td>
+                <td>{{secretary.candidateAffiliation}}</td>
+                <td><input class = "radioButton" name="secretaryForm" type="radio" value="{{secretary.candidateID}}" {%if session.userSecretary==secretary.candidateID %} checked {% endif %} required>
+              </tr>
+              {% endfor %}
+            </table>
+          </div>
+        </div>  
+      </div>    
+    </div>
+    <div class="content-section-b">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-2">
+            <hr class="section-heading-spacer">
+            <div class="clearfix"></div>
+             <h2 class="section-heading">Treasurer</h2>
+          </div>
+          <div class="ml-md-auto col-lg-8">
+            <table>
+              {% for treasurer in treasurerList %}
+              <tr>
+                <td>{{treasurer.candidateLName}}, {{treasurer.candidateFName}}</td>
+                <td>{{treasurer.candidateAffiliation}}</td>
+                <td><input class = "radioButton" name="treasurerForm" type="radio" value="{{treasurer.candidateID}}" {%if session.userTreasurer==treasurer.candidateID %} checked {% endif %} required>
+              </tr>
+              {% endfor %}
+            </table>
+          </div>
+        </div>  
+      </div>    
+    </div>
+    <div class="content-section-a">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-2">
+            <hr class="section-heading-spacer">
+            <div class="clearfix"></div>
+             <h2 class="section-heading">Auditor</h2>
+          </div>
+          <div class="ml-md-auto col-lg-8">
+            <table>
+              {% for auditor in auditorList %}
+              <tr>
+                <td>{{auditor.candidateLName}}, {{auditor.candidateFName}}</td>
+                <td>{{auditor.candidateAffiliation}}</td>
+                <td><input class = "radioButton" name="auditorForm" type="radio" value="{{auditor.candidateID}}" {%if session.userAuditor==auditor.candidateID %} checked {% endif %} required>
+              </tr>
+              {% endfor %}
+            </table>
+          </div>
+        </div>  
+      </div>    
+    </div>
   </form>
 </body>
+
+<script type="text/javascript">
+  var radioButtons = document.getElementsByClassName('radioButton');
+  var thisRadio;
+  var x = 0;
+  for(x = 0; x < radioButtons.length; x++){
+    radioButtons[x].checked = false;
+    radioButtons[x].onclick = function() {
+      if(thisRadio == this){
+        this.checked = false;
+        thisRadio = null;
+      }else{
+        thisRadio = this;
+      }
+    };
+  }
+</script>
 
 </html>
