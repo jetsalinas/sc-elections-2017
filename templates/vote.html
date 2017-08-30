@@ -42,39 +42,59 @@
         <fieldset id="president" class="ba b--transparent ph0 mh0 tl">
           <legend class="fw7 mb2">President</legend>
           {% for president in presidentList %}
-          <input class = "radioButton" name="presidentForm" type="radio" value="{{president.candidateID}}" {%if session.userPresident==president.candidateID %} checked {% endif %} required> {{president.candidateLName}}, {{president.candidateFName}} ({{president.candidateAffiliation}}) <br>
+          {% if president.candidateLName == "NONE" %}
+            <input class = "radioButton" name="presidentForm" type="radio" value="{{president.candidateID}}" {%if session.userPresident==president.candidateID %} checked {% endif %} required> {{president.candidateLName}}<br>
+          {% else %}
+            <input class = "radioButton" name="presidentForm" type="radio" value="{{president.candidateID}}" {%if session.userPresident==president.candidateID %} checked {% endif %} required> {{president.candidateLName}}, {{president.candidateFName}} ({{president.candidateAffiliation}}) <br>
+          {% endif %}
           {% endfor %}
         </fieldset>
 
         <!-- Vice President -->
         <fieldset id="vice-president" class="ba b--transparent ph0 mh0 tl">
-          <legend class="fw7 mb2">President</legend>
+          <legend class="fw7 mb2">Vice President</legend>
           {% for vicePresident in vicePresidentList %}
+          {% if vicePresident.candidateLName == "NONE" %}
+            <input class = "radioButton" name="vicePresidentForm" type="radio" value="{{vicePresident.candidateID}}" {%if session.userVicePresident==vicePresident.candidateID %} checked {% endif %} required> {{vicePresident.candidateLName}}<br>
+          {% else %}
           <input class = "radioButton" name="vicePresidentForm" type="radio" value="{{vicePresident.candidateID}}" {%if session.userVicePresident==vicePresident.candidateID %} checked {% endif %} required> {{vicePresident.candidateLName}}, {{vicePresident.candidateFName}} ({{vicePresident.candidateAffiliation}}) <br>
+          {% endif %}
           {% endfor %}
         </fieldset>
 
         <!-- Secretary -->
         <fieldset id="secretary" class="ba b--transparent ph0 mh0 tl">
-          <legend class="fw7 mb2">President</legend>
+          <legend class="fw7 mb2">Secretary</legend>
           {% for secretary in secretaryList %}
+          {% if secretary.candidateLName == "NONE" %}
+            <input class = "radioButton" name="secretaryForm" type="radio" value="{{secretary.candidateID}}" {%if session.userSecretary==secretary.candidateID %} checked {% endif %} required> {{secretary.candidateLName}}<br>
+          {% else %}
           <input class = "radioButton" name="secretaryForm" type="radio" value="{{secretary.candidateID}}" {%if session.userSecretary==secretary.candidateID %} checked {% endif %} required> {{secretary.candidateLName}}, {{secretary.candidateFName}} ({{secretary.candidateAffiliation}}) <br>
+          {% endif %}
           {% endfor %}
         </fieldset>
 
         <!-- Treasurer -->
         <fieldset id="treasurer" class="ba b--transparent ph0 mh0 tl">
-          <legend class="fw7 mb2">President</legend>
+          <legend class="fw7 mb2">Treasurer</legend>
           {% for treasurer in treasurerList %}
+          {% if treasurer.candidateLName == "NONE" %}
+            <input class = "radioButton" name="treasurerForm" type="radio" value="{{treasurer.candidateID}}" {%if session.userTreasurer==treasurer.candidateID %} checked {% endif %} required> {{treasurer.candidateLName}}<br>
+          {% else %}
           <input class = "radioButton" name="treasurerForm" type="radio" value="{{treasurer.candidateID}}" {%if session.userTreasurer==treasurer.candidateID %} checked {% endif %} required> {{treasurer.candidateLName}}, {{treasurer.candidateFName}} ({{treasurer.candidateAffiliation}}) <br>
+          {% endif %}
           {% endfor %}
         </fieldset>
 
         <!-- Auditor -->
         <fieldset id="auditor" class="ba b--transparent ph0 mh0 tl">
-          <legend class="fw7 mb2">President</legend>
+          <legend class="fw7 mb2">Auditor</legend>
           {% for auditor in auditorList %}
+          {% if auditor.candidateLName == "NONE" %}
+            <input class = "radioButton" name="auditorForm" type="radio" value="{{auditor.candidateID}}" {%if session.userAuditor==auditor.candidateID %} checked {% endif %} required> {{auditor.candidateLName}}<br>
+          {% else %}
           <input class = "radioButton" name="auditorForm" type="radio" value="{{auditor.candidateID}}" {%if session.userAuditor==auditor.candidateID %} checked {% endif %} required> {{auditor.candidateLName}}, {{auditor.candidateFName}} ({{auditor.candidateAffiliation}}) <br>
+          {% endif %}
           {% endfor %}
         </fieldset>
 

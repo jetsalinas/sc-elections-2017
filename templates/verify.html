@@ -30,15 +30,39 @@
         </h1>
         <dl class="lh-title mt0">
           <dt class="f6 b">President</dt>
-          <dd class="ml0 mb2">{{choicePresident.candidateLName}}, {{choicePresident.candidateFName}} ({{choicePresident.candidateAffiliation}})</dd>
+          {% if choicePresident.candidateLName == "NONE" %}
+            <dd class="ml0">NONE</dd>
+          {% else %}
+            <dd class="ml0 mb2">{{choicePresident.candidateLName}}, {{choicePresident.candidateFName}} ({{choicePresident.candidateAffiliation}})</dd>
+          {% endif %}
+
           <dt class="f6 b">Vice President</dt>
-          <dd class="ml0 mb2">{{choiceVicePresident.candidateLName}}, {{choiceVicePresident.candidateFName}} ({{choiceVicePresident.candidateAffiliation}})</dd>
+          {% if choiceVicePresident.candidateLName == "NONE" %}
+            <dd class="ml0">NONE</dd>
+          {% else %}
+            <dd class="ml0 mb2">{{choiceVicePresident.candidateLName}}, {{choiceVicePresident.candidateFName}} ({{choiceVicePresident.candidateAffiliation}})</dd>
+          {% endif %}
+
           <dt class="f6 b">Secretary</dt>
-          <dd class="ml0 mb2">{{choiceSecretary.candidateLName}}, {{choiceSecretary.candidateFName}} ({{choiceSecretary.candidateAffiliation}})</dd>
+          {% if choiceSecretary.candidateLName == "NONE" %}
+            <dd class="ml0">NONE</dd>
+          {% else %}
+            <dd class="ml0 mb2">{{choiceSecretary.candidateLName}}, {{choiceSecretary.candidateFName}} ({{choiceSecretary.candidateAffiliation}})</dd>
+          {% endif %}
+
           <dt class="f6 b">Treasurer</dt>
-          <dd class="ml0 mb2">{{choiceTreasurer.candidateLName}}, {{choiceTreasurer.candidateFName}} ({{choiceTreasurer.candidateAffiliation}})</dd>
+          {% if choiceTreasurer.candidateLName == "NONE" %}
+            <dd class="ml0">NONE</dd>
+          {% else %}
+            <dd class="ml0 mb2">{{choiceTreasurer.candidateLName}}, {{choiceTreasurer.candidateFName}} ({{choiceTreasurer.candidateAffiliation}})</dd>
+          {% endif %}
+
           <dt class="f6 b">Auditor</dt>
-          <dd class="ml0">{{choiceAuditor.candidateLName}}, {{choiceAuditor.candidateFName}} ({{choiceAuditor.candidateAffiliation}})</dd>
+          {% if choiceAuditor.candidateLName == "NONE" %}
+            <dd class="ml0">NONE</dd>
+          {% else %}
+            <dd class="ml0">{{choiceAuditor.candidateLName}}, {{choiceAuditor.candidateFName}} ({{choiceAuditor.candidateAffiliation}})</dd>
+          {% endif %}
         </dl>
         <form action="/verify" method="POST">
           {% if not session.userIsComplete %}
