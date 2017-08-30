@@ -102,10 +102,6 @@ ENV/
 
 # runtime files
 local.db
-candidatelist.csv
-ballotlist.csv
-securitylist.csv
-keys.py
 
 bower_components
 node_modules

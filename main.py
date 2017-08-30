@@ -31,15 +31,15 @@ from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 
-database = SQLAlchemy(app)
-marshmallow = Marshmallow(app)
-app.secret_key = SESSION_SECRET_KEY
-
 if 'DYNO' in os.environ:
     import psycopg2
     hr = Heroku(app)
 else:
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///local.db'
+
+database = SQLAlchemy(app)
+marshmallow = Marshmallow(app)
+app.secret_key = SESSION_SECRET_KEY
 
 #############
 #  SCHEMAS  #
@@ -152,11 +152,10 @@ def start_database():
         database.session.add(security)
     database.session.commit()
 
-#HEROKU: CLEARS DATABASE FROM FRESH RUN
-if 'DYNO' not in os.environ:
-    clear_database()
-
-start_database()
+try:
+    start_database()
+except:
+    None
 
 #LOAD SCHEMAS
 ballot_schema = BallotSchema()
@@ -380,4 +379,4 @@ def debug2():
     return jsonify(result)
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=False)
