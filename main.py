@@ -225,14 +225,8 @@ def login_page():
             return redirect(url_for('vote_page'))
         else:
             error = True
-    #SHOW LOGIN PAGE
-    try:
-        fromVote = session['fromVote']
-    except:
-        session['fromVote'] = False
-        fromVote = session['fromVote']
     clear_session()
-    return render_template('login.html', error=error, fromVote=fromVote)
+    return render_template('login.html', error=error)
 
 def validate_choices(requestform):
     isValid = True
@@ -343,7 +337,7 @@ def verify_page():
                 clear_session()
                 session['fromVote'] = True
         clear_session()
-        return redirect(url_for('login_page'))
+        return redirect(url_for('logout'))
 
     if validate_session():
         if session['formValid'] or session['userIsComplete']:
@@ -355,12 +349,13 @@ def verify_page():
             return render_template('verify.html', choicePresident=choicePresident, choiceVicePresident=choiceVicePresident, choiceSecretary=choiceSecretary, choiceTreasurer=choiceTreasurer, choiceAuditor=choiceAuditor)
         else:
             return redirect(url_for('vote_page'))
-    return redirect(url_for('login_page'))
+    return redirect(url_for('logout'))
 
 @app.route('/logout')
 def logout():
     clear_session()
-    return redirect(url_for('login_page'))
+    return render_template('thanks.html')
+
 
 @app.route('/debug/ballots')
 def debug():
@@ -379,4 +374,4 @@ def debug2():
     return jsonify(result)
 
 if __name__ == "__main__":
-    app.run(debug=False)
+    app.run(debug=True)
