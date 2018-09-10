@@ -1,81 +1,203 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-
 <head>
-  <!-- Meta -->
-  <meta charset="utf-8">
+
+  <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Verification page for Student Elections 2017">
-  <title>Student Elections 2017 - Verify</title>
+
+  <title>Halalan 2018</title>
 
   <!-- Tachyons -->
-  <link rel="stylesheet" href="https://unpkg.com/tachyons/css/tachyons.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/tachyons@4.9.0/css/tachyons.min.css" />
 
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <!-- CSS -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+
+  <!-- FontAwesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
+    crossorigin="anonymous">
+
 </head>
+<body class="sans-serif flex">
 
-<body class="sans-serif">
-
-  <main class="vh-100 dt w-100">
-    <div class="dtc v-mid ph3 ph4-l">
-      <div class="measure-wide center ba b--black-20 br2 pv5 ph6">
-        <h1 class="f4">
-          {% if not session.userIsComplete %}
-          Check your vote
-          {% else %}
-          Your vote
-          {% endif %}
-        </h1>
-        <dl class="lh-title mt0">
-          <dt class="f6 b">President</dt>
-          {% if choicePresident.candidateLName == "NONE" %}
-            <dd class="ml0">NONE</dd>
-          {% else %}
-            <dd class="ml0 mb2">{{choicePresident.candidateLName}}, {{choicePresident.candidateFName}} ({{choicePresident.candidateAffiliation}})</dd>
-          {% endif %}
-
-          <dt class="f6 b">Vice President</dt>
-          {% if choiceVicePresident.candidateLName == "NONE" %}
-            <dd class="ml0">NONE</dd>
-          {% else %}
-            <dd class="ml0 mb2">{{choiceVicePresident.candidateLName}}, {{choiceVicePresident.candidateFName}} ({{choiceVicePresident.candidateAffiliation}})</dd>
-          {% endif %}
-
-          <dt class="f6 b">Secretary</dt>
-          {% if choiceSecretary.candidateLName == "NONE" %}
-            <dd class="ml0">NONE</dd>
-          {% else %}
-            <dd class="ml0 mb2">{{choiceSecretary.candidateLName}}, {{choiceSecretary.candidateFName}} ({{choiceSecretary.candidateAffiliation}})</dd>
-          {% endif %}
-
-          <dt class="f6 b">Treasurer</dt>
-          {% if choiceTreasurer.candidateLName == "NONE" %}
-            <dd class="ml0">NONE</dd>
-          {% else %}
-            <dd class="ml0 mb2">{{choiceTreasurer.candidateLName}}, {{choiceTreasurer.candidateFName}} ({{choiceTreasurer.candidateAffiliation}})</dd>
-          {% endif %}
-
-          <dt class="f6 b">Auditor</dt>
-          {% if choiceAuditor.candidateLName == "NONE" %}
-            <dd class="ml0">NONE</dd>
-          {% else %}
-            <dd class="ml0">{{choiceAuditor.candidateLName}}, {{choiceAuditor.candidateFName}} ({{choiceAuditor.candidateAffiliation}})</dd>
-          {% endif %}
-        </dl>
-        <form action="/verify" method="POST">
-          {% if not session.userIsComplete %}
-          <a href="/vote"><button type="button" class="b ph3 pv2 input-reset ba b--black bg-transparent dim pointer f6 dib">Change vote</button></a>
-          <input class="b ph3 pv2 input-reset ba b--black bg-transparent dim pointer f6 dib" type="submit" value="Cast vote">
-          {% else %}
-          <input type="submit" value="Logout" class="btn btn-danger">
-          {% endif %}
-        </form>
-      </div>
+  <nav id="app-sidebar" class="flex flex-column justify-center items-center vh-100 bg-black z-9999 shadow-2">
+    <!-- <form action="/login" method="POST"> -->
+    <img src="{{ url_for('static', filename='img/sc-white.png') }}" class="w3 pb2" alt="Student Council logo">
+    <p class="pb3 f5 white">Logged in as Maded Batara III</p>
+    <div class="w-50 flex items-center white">
+      <span class="fa-stack fa-lg">
+        <i class="fas fa-circle fa-stack-2x green"></i>
+        <i class="fas fa-check fa-stack-1x white"></i>
+      </span>
+      <h2 class="ml3 pl2 f4 fw5 white">Vote</h2>
     </div>
-  </main>
+    {% if not session.userIsComplete %}
+    <div class="w-50 flex items-center white">
+      <span class="fa-stack fa-lg">
+        <i class="fas fa-circle fa-stack-2x white-10"></i>
+        <i class="fas fa-search fa-stack-1x white"></i>
+      </span>
+      <h2 class="ml3 pl2 f4 fw7 white">Check</h2>
+    </div>
+    <div class="w-50 flex items-center white">
+      <span class="fa-stack fa-lg">
+        <i class="fas fa-circle fa-stack-2x black"></i>
+        <i class="fas fa-user-check fa-stack-1x white-20"></i>
+      </span>
+      <h2 class="ml3 pl2 f4 fw5 white-40">Done!</h2>
+    </div>
+    {% else %}
+    <div class="w-50 flex items-center white">
+      <span class="fa-stack fa-lg">
+        <i class="fas fa-circle fa-stack-2x green"></i>
+        <i class="fas fa-check fa-stack-1x white"></i>
+      </span>
+      <h2 class="ml3 pl2 f4 fw5">Check</h2>
+    </div>
+    <div class="w-50 flex items-center white">
+      <span class="fa-stack fa-lg">
+        <i class="fas fa-circle fa-stack-2x green"></i>
+        <i class="fas fa-check fa-stack-1x white"></i>
+      </span>
+      <h2 class="ml3 pl2 f4 fw5">Done!</h2>
+    </div>
+    {% endif %}
+  </nav>
+
+  <section id="app-content" class="bg-near-white ph5 pb5 pt4 flex flex-column vh-100 w-75 overflow-y-scroll">
+    {% if not session.userIsComplete %}
+    <div class="bg-black-70 white flex flex-column justify-center mb4 ph4 pv3 br2">
+      <p class="ma0 f4">Please double-check your votes below.</p>
+      <p class="ma0 mt2 f5 i">Pakitingnan muli ang inyong boto sa ibaba.</p>
+    </div>
+    {% else %}
+    <div class="bg-dark-green white flex flex-column justify-center mb4 ph4 pv3 br2">
+      <p class="ma0 f4">Thank you for voting!</p>
+      <p class="ma0 mt2 f5 i">Salamat sa pagboto!</p>
+    </div>
+    {% endif %}
+    <div id="app-content-text" class="flex flex-column">
+      <h1 class="f1 ma0">Ballot <span class="ml3 f4 fw5 i ttu tracked ma0 pv2">Balota</span></h1>
+      <h2 class="f4 fw5 ma0 pv2">for the 2024 Batch Council elections</h2>
+      <hr class="ba mv3 w-100 b--black-40">
+      <div>
+
+        <div class="pb3">
+          <h2 class="f4 fw7 mb">President <span class="ml3 f6 fw5 i ttu tracked ma0 pv2">Presidente</span></h2>
+          <div class="flex pl4">
+            {% if choicePresident.candidateLName == "NONE" %}
+            <i class="far fa-circle fa-fw black-80"></i>
+            <p class="pl2 ma0">
+              No vote
+              <span class="db pv2 f6 fw5 i black-80">Walang boto</span>
+            </p>
+            {% else %}
+            <i class="fas fa-check-circle fa-fw black-80"></i>
+            <p class="pl2 ma0">
+              {{choicePresident.candidateLName}}, {{choicePresident.candidateFName}}
+              <span class="db pv2 f6 fw5 black-80">{{choicePresident.candidateAffiliation}}</span>
+            </p>
+            {% endif %}
+          </div>
+        </div>
+
+        <div class="pb3">
+          <h2 class="f4 fw7 mb">Vice President <span class="ml3 f6 fw5 i ttu tracked ma0 pv2">Bise Presidente</span></h2>
+          <div class="flex pl4">
+            {% if choiceVicePresident.candidateLName == "NONE" %}
+            <i class="far fa-circle fa-fw black-80"></i>
+            <p class="pl2 ma0">
+              No vote
+              <span class="db pv2 f6 fw5 i black-80">Walang boto</span>
+            </p>
+            {% else %}
+            <i class="fas fa-check-circle fa-fw black-80"></i>
+            <p class="pl2 ma0">
+              {{choiceVicePresident.candidateLName}}, {{choiceVicePresident.candidateFName}}
+              <span class="db pv2 f6 fw5 black-80">{{choiceVicePresident.candidateAffiliation}}</span>
+            </p>
+            {% endif %}
+          </div>
+        </div>
+
+        <div class="pb3">
+          <h2 class="f4 fw7 mb">Secretary <span class="ml3 f6 fw5 i ttu tracked ma0 pv2">Tagatala</span></h2>
+          <div class="flex pl4">
+            {% if choiceSecretary.candidateLName == "NONE" %}
+            <i class="far fa-circle fa-fw black-80"></i>
+            <p class="pl2 ma0">
+              No vote
+              <span class="db pv2 f6 fw5 i black-80">Walang boto</span>
+            </p>
+            {% else %}
+            <i class="fas fa-check-circle fa-fw black-80"></i>
+            <p class="pl2 ma0">
+              {{choiceSecretary.candidateLName}}, {{choiceSecretary.candidateFName}}
+              <span class="db pv2 f6 fw5 black-80">{{choiceSecretary.candidateAffiliation}}</span>
+            </p>
+            {% endif %}
+          </div>
+        </div>
+
+        <div class="pb3">
+          <h2 class="f4 fw7 mb">Treasurer <span class="ml3 f6 fw5 i ttu tracked ma0 pv2">Ingat-yaman</span></h2>
+          <div class="flex pl4">
+            {% if choiceTreasurer.candidateLName == "NONE" %}
+            <i class="far fa-circle fa-fw black-80"></i>
+            <p class="pl2 ma0">
+              No vote
+              <span class="db pv2 f6 fw5 i black-80">Walang boto</span>
+            </p>
+            {% else %}
+            <i class="fas fa-check-circle fa-fw black-80"></i>
+            <p class="pl2 ma0">
+              {{choiceTreasurer.candidateLName}}, {{choiceTreasurer.candidateFName}}
+              <span class="db pv2 f6 fw5 black-80">{{choiceTreasurer.candidateAffiliation}}</span>
+            </p>
+            {% endif %}
+          </div>
+        </div>
+
+        <div class="pb3">
+          <h2 class="f4 fw7 mb">Auditor <span class="ml3 f6 fw5 i ttu tracked ma0 pv2">Tagasuri</span></h2>
+          <div class="flex pl4">
+            {% if choiceAuditor.candidateLName == "NONE" %}
+            <i class="far fa-circle fa-fw black-80"></i>
+            <p class="pl2 ma0">
+              No vote
+              <span class="db pv2 f6 fw5 i black-80">Walang boto</span>
+            </p>
+            {% else %}
+            <i class="fas fa-check-circle fa-fw black-80"></i>
+            <p class="pl2 ma0">
+              {{choiceAuditor.candidateLName}}, {{choiceAuditor.candidateFName}}
+              <span class="db pv2 f6 fw5 black-80">{{choiceAuditor.candidateAffiliation}}</span>
+            </p>
+            {% endif %}
+          </div>
+        </div>
+
+      </div>
+      <hr class="mb3 ba w-100 b--black-40">
+      <form action="/verify" method="POST" class="dib mt3">
+        <div class="fr mb4">
+          {% if not session.userIsComplete %}
+          <a class="dib link input-reset ph4 pv2 f5 fw5 bg-transparent black ba br2 b--black-60 dim pointer" href="/vote">
+            <i class="mr1 fas fa-arrow-left"></i> Change
+          </a>
+          <button class="dib ml3 input-reset ph4 pv2 f5 fw7 bg-dark-green white ba br2 b--white dim pointer" type="submit">Confirm
+            <i class="ml1 fas fa-check"></i>
+          </button>
+          {% else %}
+          <button class="dib ml3 input-reset ph4 pv2 f5 fw7 bg-black white ba br2 b--white dim pointer" type="submit">
+            Sign out <i class="ml1 fas fa-sign-out-alt"></i>
+          </button>
+          {% endif %}
+        </div>
+      </form>
+    </div>
+  </section>
 
 </body>
-
 </html>

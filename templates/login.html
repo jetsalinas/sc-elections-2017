@@ -1,52 +1,59 @@
-<!doctype html>
-<html lang="en">
-
+<!DOCTYPE html>
+<html>
 <head>
-  <!-- Meta -->
-  <meta charset="utf-8">
+
+  <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Login page for Student Elections 2017">
-  <title>Student Elections 2017 - Login</title>
+
+  <title>Halalan 2018</title>
 
   <!-- Tachyons -->
-  <link rel="stylesheet" href="https://unpkg.com/tachyons/css/tachyons.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/tachyons@4.9.0/css/tachyons.min.css" />
 
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <!-- CSS -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+
+  <!-- FontAwesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
+    crossorigin="anonymous">
 
 </head>
+<body class="sans-serif flex">
 
-<body class="sans-serif">
-
-  <div class="fixed w-100 top-0">
+  <nav id="app-sidebar" class="flex flex-column justify-center items-center vh-100 bg-black z-9999 shadow-2">
+    <img src="{{ url_for('static', filename='img/sc-white.png') }}" class="w3 pb4" alt="Student Council logo" id="login-logo">
     {% if error %}
-      <div>
-        <div class="bg-washed-red ba bt-0 b--light-red br--bottom br2 measure center pv3 ph3 black-70" role="alert">
-        <i class="fa fa-times fa-lg mr2"></i>Username or password is incorrect.
-      </div>
-    {% endif %}
-  </div>
-
-  <main class="vh-100 dt w-100">
-    <div class="dtc v-mid ph3 ph4-l tc">
-      <form action="/login" method="POST" class="measure center ba b--black-20 br2 pv5 ph6">
-        <h1 class="f4">Cast your vote</h1>
-        <fieldset id="signin" class="ba b--transparent ph0 mh0 tl">
-          <div class="mt3">
-            <label class="db fw6 lh-copy f6 tl pb1" for="username">Username</label>
-            <input class="pa2 input-reset ba b--black-10 bg-transparent w-100" type="text" name="username" id="username">
-          </div>
-          <div class="mv3">
-            <label class="db fw6 lh-copy f6 tl pb1" for="password">Password</label>
-            <input class="pa2 input-reset ba b--black-10 bg-transparent w-100" type="password" name="password"  id="password">
-          </div>
-        </fieldset>
-        <input class="b ph3 pv2 input-reset ba b--black bg-transparent dim pointer f6 dib" type="submit" value="Sign in">
-      </form>
+    <div id="login-toast" class="bg-red white flex items-center mb1 ph4 pv3 br2">
+      <i class="fas fa-exclamation-circle mr2"></i>
+      <p class="ma0 f6">Wrong username or password</p>
     </div>
-  </main>
+    {% endif %}
+    <form id="login-form" action="/login" method="POST" class="ph2 flex flex-column items-center">
+      <fieldset id="signin" liv class="ba bw0 ph0 mh0 tl w5">
+        <div class="mt3">
+          <label class="db fw6 lh-copy f6 tl pb1 white" for="username">Username</label>
+          <input class="input-reset pv2 bg-transparent w-100 white bt-0 br-0 bl-0 bb b--white-80" type="text" name="username"
+            id="username">
+        </div>
+        <div class="mv3">
+          <label class="db fw6 lh-copy f6 tl pb1 white" for="password">Password</label>
+          <input class="input-reset pv2 bg-transparent w-100 white bt-0 br-0 bl-0 bb b--white-80" type="password" name="password"
+            id="password">
+        </div>
+      </fieldset>
+      <button class="dib input-reset ph3 pv2 f6 fw7 bg-white ba br1 b--white dim pointer" type="submit">Sign in <i
+          class="ml1 fas fa-arrow-right"></i></button>
+    </form>
+  </nav>
+
+  <section id="app-content" class="bg-near-white ph5 pb5 pt4 flex flex-column vh-100 w-75">
+    <div id="app-content-text" class="flex flex-column items-center justify-center">
+      <h1 class="ttu tracked">Halalan 2018</h1>
+      <p>&lt;insert message here&gt;</p>
+    </div>
+    <footer class="f7 self-center">&copy; 2018. Developed by Maded Batara III and Jose Enrico Salinas (2018).</footer>
+  </section>
 
 </body>
-
 </html>

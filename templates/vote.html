@@ -1,253 +1,173 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-
 <head>
-  <!-- Meta -->
-  <meta charset="utf-8">
+
+  <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Voting page for Student Elections 2017">
 
-  <title>Student Elections 2017 - Vote</title>
+  <title>Halalan 2018</title>
 
   <!-- Tachyons -->
-  <link rel="stylesheet" href="https://unpkg.com/tachyons/css/tachyons.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/tachyons@4.9.0/css/tachyons.min.css" />
 
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <!-- CSS -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+
+  <!-- FontAwesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
+    crossorigin="anonymous">
 
 </head>
+<body class="sans-serif flex">
 
-<body class="sans-serif">
+  <nav id="app-sidebar" class="flex flex-column justify-center items-center vh-100 bg-black z-9999 shadow-2">
+    <img src="{{ url_for('static', filename='img/sc-white.png') }}" class="w3 pb2" alt="Student Council logo">
+    <p class="pb3 f5 white">Logged in as Maded Batara III</p>
+    <div class="w-50 flex items-center white">
+      <span class="fa-stack fa-lg">
+        <i class="fas fa-circle fa-stack-2x white-10"></i>
+        <i class="fas fa-list-ul fa-stack-1x white"></i>
+      </span>
+      <h2 class="ml3 pl2 f4 fw7">Vote</h2>
+    </div>
+    <div class="w-50 flex items-center white">
+      <span class="fa-stack fa-lg">
+        <i class="fas fa-circle fa-stack-2x black"></i>
+        <i class="fas fa-search fa-stack-1x white-20"></i>
+      </span>
+      <h2 class="ml3 pl2 f4 fw5 white-40">Check</h2>
+    </div>
+    <div class="w-50 flex items-center white">
+      <span class="fa-stack fa-lg">
+        <i class="fas fa-circle fa-stack-2x black"></i>
+        <i class="fas fa-user-check fa-stack-1x white-20"></i>
+      </span>
+      <h2 class="ml3 pl2 f4 fw5 white-40">Done!</h2>
+    </div>
+  </nav>
 
-  <div class="fixed w-100 top-0">
+  <section id="app-content" class="bg-near-white ph5 pb5 {{ 'pt4' if error else 'pt5' }} flex flex-column vh-100 w-75 overflow-y-scroll">
     {% if error %}
-      <div>
-        <div class="bg-washed-red ba bt-0 b--light-red br--bottom br2 measure center pv3 ph3 black-70" role="alert">
-        <i class="fa fa-times fa-lg mr2"></i>Please cast your votes for all positions.
-      </div>
-    {% elif fromVote %}
-      <div class="bg-washed-green ba bt-0 b--green br--bottom br2 measure center pv3 ph3 black-70" role="alert">
-        <i class="fa fa-check fa-lg mr2"></i>Thanks for voting!
-      </div>
+    <div class="bg-dark-red white flex flex-column justify-center mb4 ph4 pv3 br2">
+      <p class="ma0 f4">Please cast your votes for all positions.</p>
+      <p class="ma0 mt2 f5 i">Pakilagyan ng boto ang lahat ng posisyon.</p>
+    </div>
     {% endif %}
-  </div>
-
-  <main class="vh-100 dt w-100">
-    <div class="dtc v-mid ph3 ph4-l tc">
-      <form action="/vote" method="POST" class="measure center ba b--black-20 br2 pv5 ph6">
-        <h1 class="f4">Ballot</h1>
+    <div id="app-content-text" class="flex flex-column">
+      <h1 class="f1 ma0">Ballot <span class="ml3 f4 fw5 i ttu tracked ma0 pv2">Balota</span></h1>
+      <h2 class="f4 fw5 ma0 pv2">for the 2024 Batch Council elections</h2>
+      <hr class="ba mv3 w-100 b--black-40">
+      <form action="/vote" method="POST" class="mt3">
 
         <!-- President -->
         <fieldset id="president" class="ba b--transparent ph0 mh0 tl">
-          <legend class="fw7 mb2">President</legend>
+          <legend class="f4 fw7 mb1">President <span class="ml3 f6 fw5 i ttu tracked ma0 pv2">Presidente</span></legend>
           {% for president in presidentList %}
-          {% if president.candidateLName == "NONE" %}
-            <input class = "radioButton" name="presidentForm" type="radio" value="{{president.candidateID}}" {%if session.userPresident==president.candidateID %} checked {% endif %} required> {{president.candidateLName}}<br>
-          {% else %}
-            <input class = "radioButton" name="presidentForm" type="radio" value="{{president.candidateID}}" {%if session.userPresident==president.candidateID %} checked {% endif %} required> {{president.candidateLName}}, {{president.candidateFName}} ({{president.candidateAffiliation}}) <br>
-          {% endif %}
+          <div class="pl5 pv1">
+            <input name="presidentForm" type="radio" value="{{president.candidateID}}" id="{{president.candidateID}}"
+              required>
+            <label for="{{president.candidateID}}" class="f5">
+              {% if president.candidateLName == "NONE" %}
+              No vote
+              <span class="db pv2 f6 fw5 black-80 i">Walang boto</span>
+              {% else %}
+              {{president.candidateLName}}, {{president.candidateFName}}
+              <span class="db pv2 f6 fw5 black-80">{{president.candidateAffiliation}}</span>
+              {% endif %}
+            </label>
+          </div>
           {% endfor %}
         </fieldset>
 
         <!-- Vice President -->
         <fieldset id="vice-president" class="ba b--transparent ph0 mh0 tl">
-          <legend class="fw7 mb2">Vice President</legend>
+          <legend class="f4 fw7 mb1">Vice President <span class="ml3 f6 fw5 i ttu tracked ma0 pv2">Bise Presidente</span></legend>
           {% for vicePresident in vicePresidentList %}
-          {% if vicePresident.candidateLName == "NONE" %}
-            <input class = "radioButton" name="vicePresidentForm" type="radio" value="{{vicePresident.candidateID}}" {%if session.userVicePresident==vicePresident.candidateID %} checked {% endif %} required> {{vicePresident.candidateLName}}<br>
-          {% else %}
-          <input class = "radioButton" name="vicePresidentForm" type="radio" value="{{vicePresident.candidateID}}" {%if session.userVicePresident==vicePresident.candidateID %} checked {% endif %} required> {{vicePresident.candidateLName}}, {{vicePresident.candidateFName}} ({{vicePresident.candidateAffiliation}}) <br>
-          {% endif %}
+          <div class="pl5 pv1">
+            <input name="vicePresidentForm" type="radio" value="{{vicePresident.candidateID}}" id="{{vicePresident.candidateID}}"
+              required>
+            <label for="{{vicePresident.candidateID}}" class="f5">
+              {% if vicePresident.candidateLName == "NONE" %}
+              No vote
+              <span class="db pv2 f6 fw5 black-80 i">Walang boto</span>
+              {% else %}
+              {{vicePresident.candidateLName}}, {{vicePresident.candidateFName}}
+              <span class="db pv2 f6 fw5 black-80">{{vicePresident.candidateAffiliation}}</span>
+              {% endif %}
+            </label>
+          </div>
           {% endfor %}
         </fieldset>
 
         <!-- Secretary -->
         <fieldset id="secretary" class="ba b--transparent ph0 mh0 tl">
-          <legend class="fw7 mb2">Secretary</legend>
+          <legend class="f4 fw7 mb1">Secretary <span class="ml3 f6 fw5 i ttu tracked ma0 pv2">Tagatala</span></legend>
           {% for secretary in secretaryList %}
-          {% if secretary.candidateLName == "NONE" %}
-            <input class = "radioButton" name="secretaryForm" type="radio" value="{{secretary.candidateID}}" {%if session.userSecretary==secretary.candidateID %} checked {% endif %} required> {{secretary.candidateLName}}<br>
-          {% else %}
-          <input class = "radioButton" name="secretaryForm" type="radio" value="{{secretary.candidateID}}" {%if session.userSecretary==secretary.candidateID %} checked {% endif %} required> {{secretary.candidateLName}}, {{secretary.candidateFName}} ({{secretary.candidateAffiliation}}) <br>
-          {% endif %}
+          <div class="pl5 pv1">
+            <input name="secretaryForm" type="radio" value="{{secretary.candidateID}}" id="{{secretary.candidateID}}"
+              required>
+            <label for="{{secretary.candidateID}}" class="f5">
+              {% if secretary.candidateLName == "NONE" %}
+              No vote
+              <span class="db pv2 f6 fw5 black-80 i">Walang boto</span>
+              {% else %}
+              {{secretary.candidateLName}}, {{secretary.candidateFName}}
+              <span class="db pv2 f6 fw5 black-80">{{secretary.candidateAffiliation}}</span>
+              {% endif %}
+            </label>
+          </div>
           {% endfor %}
         </fieldset>
 
         <!-- Treasurer -->
         <fieldset id="treasurer" class="ba b--transparent ph0 mh0 tl">
-          <legend class="fw7 mb2">Treasurer</legend>
+          <legend class="f4 fw7 mb1">Treasurer <span class="ml3 f6 fw5 i ttu tracked ma0 pv2">Ingat-yaman</span></legend>
           {% for treasurer in treasurerList %}
-          {% if treasurer.candidateLName == "NONE" %}
-            <input class = "radioButton" name="treasurerForm" type="radio" value="{{treasurer.candidateID}}" {%if session.userTreasurer==treasurer.candidateID %} checked {% endif %} required> {{treasurer.candidateLName}}<br>
-          {% else %}
-          <input class = "radioButton" name="treasurerForm" type="radio" value="{{treasurer.candidateID}}" {%if session.userTreasurer==treasurer.candidateID %} checked {% endif %} required> {{treasurer.candidateLName}}, {{treasurer.candidateFName}} ({{treasurer.candidateAffiliation}}) <br>
-          {% endif %}
+          <div class="pl5 pv1">
+            <input name="treasurerForm" type="radio" value="{{treasurer.candidateID}}" id="{{treasurer.candidateID}}"
+              required>
+            <label for="{{treasurer.candidateID}}" class="f5">
+              {% if treasurer.candidateLName == "NONE" %}
+              No vote
+              <span class="db pv2 f6 fw5 black-80 i">Walang boto</span>
+              {% else %}
+              {{treasurer.candidateLName}}, {{treasurer.candidateFName}}
+              <span class="db pv2 f6 fw5 black-80">{{treasurer.candidateAffiliation}}</span>
+              {% endif %}
+            </label>
+          </div>
           {% endfor %}
         </fieldset>
 
         <!-- Auditor -->
         <fieldset id="auditor" class="ba b--transparent ph0 mh0 tl">
-          <legend class="fw7 mb2">Auditor</legend>
+          <legend class="f4 fw7 mb1">Auditor <span class="ml3 f6 fw5 i ttu tracked ma0 pv2">Tagasuri</span></legend>
           {% for auditor in auditorList %}
-          {% if auditor.candidateLName == "NONE" %}
-            <input class = "radioButton" name="auditorForm" type="radio" value="{{auditor.candidateID}}" {%if session.userAuditor==auditor.candidateID %} checked {% endif %} required> {{auditor.candidateLName}}<br>
-          {% else %}
-          <input class = "radioButton" name="auditorForm" type="radio" value="{{auditor.candidateID}}" {%if session.userAuditor==auditor.candidateID %} checked {% endif %} required> {{auditor.candidateLName}}, {{auditor.candidateFName}} ({{auditor.candidateAffiliation}}) <br>
-          {% endif %}
+          <div class="pl5 pv1">
+            <input name="auditorForm" type="radio" value="{{auditor.candidateID}}" id="{{auditor.candidateID}}"
+              required>
+            <label for="{{auditor.candidateID}}" class="f5">
+              {% if auditor.candidateLName == "NONE" %}
+              No vote
+              <span class="db pv2 f6 fw5 black-80 i">Walang boto</span>
+              {% else %}
+              {{auditor.candidateLName}}, {{auditor.candidateFName}}
+              <span class="db pv2 f6 fw5 black-80">{{auditor.candidateAffiliation}}</span>
+              {% endif %}
+            </label>
+          </div>
           {% endfor %}
         </fieldset>
 
-        <input class="b ph3 pv2 input-reset ba b--black bg-transparent dim pointer f6 dib" type="submit" value="Cast vote">
+        <hr class="mb4 ba w-100 b--black-40">
+
+        <button class="dib fr input-reset mb4 ph4 pv2 f5 fw7 bg-black white ba br2 b--white dim pointer" type="submit">Cast
+          vote <i class="ml1 fas fa-arrow-right"></i></button>
 
       </form>
     </div>
-  </main>
-
-  <!-- <form action='/vote' method='POST'>
-  <div class="intro-header" id="home">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-12">
-           <div class="intro-message">
-            <h1>Vote Wisely</h1>
-            <hr class="intro-divider">
-            <h3>If you wish to finalize your votes:</h3>
-            <input type="submit" value="Finalize Votes" class="btn btn-success">
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-    <div class="content-section-a">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-2">
-            <hr class="section-heading-spacer">
-            <div class="clearfix"></div>
-            <h2 class="section-heading">President</h2>
-          </div>
-          <div class="ml-md-auto col-lg-8">
-            <table>
-              {% for president in presidentList %}
-              <tr>
-                <td>{{president.candidateLName}}, {{president.candidateFName}}</td>
-                <td>{{president.candidateAffiliation}}</td>
-                <td><input class = "radioButton" name="presidentForm" type="radio" value="{{president.candidateID}}" {%if session.userPresident==president.candidateID %} checked {% endif %} required>
-              </tr>
-              {% endfor %}
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="content-section-b">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-2">
-            <hr class="section-heading-spacer">
-            <div class="clearfix"></div>
-             <h2 class="section-heading">Vice President</h2>
-          </div>
-          <div class="ml-md-auto col-lg-8">
-            <table>
-              {% for vicePresident in vicePresidentList %}
-              <tr>
-                <td>{{vicePresident.candidateLName}}, {{vicePresident.candidateFName}}</td>
-                <td>{{vicePresident.candidateAffiliation}}</td>
-                <td><input class = "radioButton" name="vicePresidentForm" type="radio" value="{{vicePresident.candidateID}}" {%if session.userVicePresident==vicePresident.candidateID %} checked {% endif %} required>
-              </tr>
-              {% endfor %}
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="content-section-a">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-2">
-            <hr class="section-heading-spacer">
-            <div class="clearfix"></div>
-             <h2 class="section-heading">Secretary</h2>
-          </div>
-          <div class="ml-md-auto col-lg-8">
-            <table>
-              {% for secretary in secretaryList %}
-              <tr>
-                <td>{{secretary.candidateLName}}, {{secretary.candidateFName}}</td>
-                <td>{{secretary.candidateAffiliation}}</td>
-                <td><input class = "radioButton" name="secretaryForm" type="radio" value="{{secretary.candidateID}}" {%if session.userSecretary==secretary.candidateID %} checked {% endif %} required>
-              </tr>
-              {% endfor %}
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="content-section-b">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-2">
-            <hr class="section-heading-spacer">
-            <div class="clearfix"></div>
-             <h2 class="section-heading">Treasurer</h2>
-          </div>
-          <div class="ml-md-auto col-lg-8">
-            <table>
-              {% for treasurer in treasurerList %}
-              <tr>
-                <td>{{treasurer.candidateLName}}, {{treasurer.candidateFName}}</td>
-                <td>{{treasurer.candidateAffiliation}}</td>
-                <td><input class = "radioButton" name="treasurerForm" type="radio" value="{{treasurer.candidateID}}" {%if session.userTreasurer==treasurer.candidateID %} checked {% endif %} required>
-              </tr>
-              {% endfor %}
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="content-section-a">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-2">
-            <hr class="section-heading-spacer">
-            <div class="clearfix"></div>
-             <h2 class="section-heading">Auditor</h2>
-          </div>
-          <div class="ml-md-auto col-lg-8">
-            <table>
-              {% for auditor in auditorList %}
-              <tr>
-                <td>{{auditor.candidateLName}}, {{auditor.candidateFName}}</td>
-                <td>{{auditor.candidateAffiliation}}</td>
-                <td><input class = "radioButton" name="auditorForm" type="radio" value="{{auditor.candidateID}}" {%if session.userAuditor==auditor.candidateID %} checked {% endif %} required>
-              </tr>
-              {% endfor %}
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
-  </form> -->
+  </section>
 
 </body>
-
-<script type="text/javascript">
-  var radioButtons = document.getElementsByClassName('radioButton');
-  var thisRadio;
-  var x = 0;
-  for(x = 0; x < radioButtons.length; x++){
-    radioButtons[x].checked = false;
-    radioButtons[x].onclick = function() {
-      if(thisRadio == this){
-        this.checked = false;
-        thisRadio = null;
-      }else{
-        thisRadio = this;
-      }
-    };
-  }
-</script>
-
 </html>

@@ -1,22 +1,70 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Halalan 2018</title>
-</head>
-<body>
-    <p>I'm really gay</p>
 
-    <script>    
-        window.setTimeout(function(){
-   
-          // Move to a new location or you can do something else
-          window.location.href = "http://127.0.0.1:5000/login";
-   
-          }, 5000);
-   
-    </script>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Halalan 2018</title>
+
+  <!-- Tachyons -->
+  <link rel="stylesheet" href="https://unpkg.com/tachyons@4.9.0/css/tachyons.min.css" />
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+
+  <!-- FontAwesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
+    crossorigin="anonymous">
+
+</head>
+<body class="sans-serif flex">
+
+  <nav id="app-sidebar" class="flex flex-column justify-center items-center vh-100 bg-black z-9999 shadow-2">
+    <!-- <form action="/login" method="POST"> -->
+    <img src="{{ url_for('static', filename='img/sc-white.png') }}" class="w3 pb2" alt="Student Council logo">
+    <p class="pb3 f5 white">Logged in as Maded Batara III</p>
+    <div class="w-50 flex items-center white">
+      <span class="fa-stack fa-lg">
+        <i class="fas fa-circle fa-stack-2x green"></i>
+        <i class="fas fa-check fa-stack-1x white"></i>
+      </span>
+      <h2 class="ml3 pl2 f4 fw5">Vote</h2>
+    </div>
+    <div class="w-50 flex items-center white">
+      <span class="fa-stack fa-lg">
+        <i class="fas fa-circle fa-stack-2x green"></i>
+        <i class="fas fa-check fa-stack-1x white"></i>
+      </span>
+      <h2 class="ml3 pl2 f4 fw5">Check</h2>
+    </div>
+    <div class="w-50 flex items-center white">
+      <span class="fa-stack fa-lg">
+        <i class="fas fa-circle fa-stack-2x white-10"></i>
+        <i class="fas fa-user-check fa-stack-1x white"></i>
+      </span>
+      <h2 class="ml3 pl2 f4 fw7 white">Done!</h2>
+    </div>
+  </nav>
+
+  <section id="app-content" class="bg-near-white pa5 flex flex-column items-center justify-center vh-100 w-75">
+    <div id="app-content-text" class="flex flex-column items-center justify-center">
+      <h1 class="ttu tracked">Halalan 2018</h1>
+      <p>&lt;insert message here&gt;</p>
+    </div>
+  </section>
+
+  <script>
+    window.setTimeout(function () {
+
+      // TODO: absolute -> relative location
+      // Or you could be a real man and not bodge it
+      window.location.href = "http://127.0.0.1:5000/login";
+
+    }, 5000);
+
+  </script>
+
 </body>
 </html>

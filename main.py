@@ -95,22 +95,22 @@ class SecuritySchema(marshmallow.ModelSchema):
         model = Security
 
 # LOAD DATABASE
-ballots =[]
+ballots = []
 with open("ballotlist.csv") as ballot_csv:
     ballot_list = csv.reader(ballot_csv)
     for row in ballot_list:
         ballots.append(Ballot(
-            ballotID = row[0],
-            ballotBatch = row[1],
-            ballotLName = row[2],
-            ballotFName = row[3],
-            ballotPresident = None,
-            ballotVicePresident = None,
-            ballotSecretary = None,
-            ballotTreasurer = None,
-            ballotAuditor = None,
-            ballotTime = datetime.now().strftime("%Y-%m-%dT%H:%M:%SZ"),
-            ballotIsComplete = False
+            ballotID=row[0],
+            ballotBatch=row[1],
+            ballotLName=row[2],
+            ballotFName=row[3],
+            ballotPresident=None,
+            ballotVicePresident=None,
+            ballotSecretary=None,
+            ballotTreasurer=None,
+            ballotAuditor=None,
+            ballotTime=datetime.now().strftime("%Y-%m-%dT%H:%M:%SZ"),
+            ballotIsComplete=False
         ))
 
 candidates = []
@@ -118,14 +118,14 @@ with open("candidatelist.csv") as candidate_csv:
     candidate_list = csv.reader(candidate_csv)
     for row in candidate_list:
         candidates.append(Candidate(
-            candidateID = row[0],
-            candidatePosition = row[1],
-            candidateAffiliation = row[2],
-            candidateBatch = row[3],
-            candidateLName = row[4],
-            candidateFName = row[5],
-            candidateTotalVotes = 0,
-            candidateTime = datetime.now().strftime("%Y-%m-%dT%H:%M:%SZ"),
+            candidateID=row[0],
+            candidatePosition=row[1],
+            candidateAffiliation=row[2],
+            candidateBatch=row[3],
+            candidateLName=row[4],
+            candidateFName=row[5],
+            candidateTotalVotes=0,
+            candidateTime=datetime.now().strftime("%Y-%m-%dT%H:%M:%SZ"),
         ))
 
 credentials = []
@@ -133,9 +133,9 @@ with open("securitylist.csv") as security_csv:
     security_list = csv.reader(security_csv)
     for row in security_list:
         credentials.append(Security(
-            securityID = row[0],
-            securityUName = row[1],
-            securityPassword = row[2]
+            securityID=row[0],
+            securityUName=row[1],
+            securityPassword=row[2]
         ))
 
 def clear_database():
@@ -157,7 +157,7 @@ try:
 except:
     None
 
-#LOAD SCHEMAS
+# LOAD SCHEMAS
 ballot_schema = BallotSchema()
 candidate_schema = CandidateSchema()
 security_schema = SecuritySchema()
@@ -211,11 +211,11 @@ def main_page():
 @app.route('/login', methods=['GET', 'POST'])
 def login_page():
     error = False
-    #SKIP LOG IN PAGE IF A USER IS ALREADY LOGGED IN
+    # SKIP LOG IN PAGE IF A USER IS ALREADY LOGGED IN
     if validate_session():
         load_session_data(userID=session['userID'])
         return redirect(url_for('vote_page'))
-    #PROCESS LOGIN REQUESTS
+    # PROCESS LOGIN REQUESTS
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
@@ -262,52 +262,70 @@ def validate_choices(requestform):
 def vote_page():
     error = False
     session['formValid'] = False
-    #REDIRECT TO VERIFICATION IF VOTING IS COMPLETE
+    # REDIRECT TO VERIFICATION IF VOTING IS COMPLETE
     if session['userIsComplete']:
         return redirect(url_for('verify_page'))
-    #PROCESS VOTE REQUESTS
+    # PROCESS VOTE REQUESTS
     if request.method == 'POST':
         if validate_choices(requestform=request.form):
             session['formValid'] = True
             return redirect(url_for('verify_page'))
         else:
-            error=True
+            error = True
 
-    #SHOW VOTE PAGE IF LOGGED IN
+    # SHOW VOTE PAGE IF LOGGED IN
     if validate_session():
-        presidentList = Candidate.query.filter_by(candidateBatch=session['userBatch']).filter_by(candidatePosition=2000)
-        vicePresidentList = Candidate.query.filter_by(candidateBatch=session['userBatch']).filter_by(candidatePosition=2001)
-        secretaryList = Candidate.query.filter_by(candidateBatch=session['userBatch']).filter_by(candidatePosition=2002)
-        treasurerList = Candidate.query.filter_by(candidateBatch=session['userBatch']).filter_by(candidatePosition=2003)
-        auditorList = Candidate.query.filter_by(candidateBatch=session['userBatch']).filter_by(candidatePosition=2004)
+        presidentList = Candidate.query.filter_by(
+            candidateBatch=session['userBatch']).filter_by(candidatePosition=2000)
+        vicePresidentList = Candidate.query.filter_by(
+            candidateBatch=session['userBatch']).filter_by(candidatePosition=2001)
+        secretaryList = Candidate.query.filter_by(
+            candidateBatch=session['userBatch']).filter_by(candidatePosition=2002)
+        treasurerList = Candidate.query.filter_by(
+            candidateBatch=session['userBatch']).filter_by(candidatePosition=2003)
+        auditorList = Candidate.query.filter_by(
+            candidateBatch=session['userBatch']).filter_by(candidatePosition=2004)
         return render_template('vote.html',
-        presidentList=presidentList,
-        vicePresidentList=vicePresidentList,
-        secretaryList=secretaryList,
-        treasurerList=treasurerList,
-        auditorList=auditorList,
-        error=error)
+                               presidentList=presidentList,
+                               vicePresidentList=vicePresidentList,
+                               secretaryList=secretaryList,
+                               treasurerList=treasurerList,
+                               auditorList=auditorList,
+                               error=error)
 
     return redirect(url_for('login_page'))
 
 def commit_ballot():
-    Ballot.query.filter_by(ballotID=session['userID']).first().ballotPresident = session['userPresident']
-    Ballot.query.filter_by(ballotID=session['userID']).first().ballotVicePresident = session['userVicePresident']
-    Ballot.query.filter_by(ballotID=session['userID']).first().ballotSecretary = session['userSecretary']
-    Ballot.query.filter_by(ballotID=session['userID']).first().ballotTreasurer = session['userTreasurer']
-    Ballot.query.filter_by(ballotID=session['userID']).first().ballotAuditor = session['userAuditor']
-    Ballot.query.filter_by(ballotID=session['userID']).first().ballotTime = datetime.now().strftime("%Y-%m-%dT%H:%M:%SZ")
-    Ballot.query.filter_by(ballotID=session['userID']).first().ballotIsComplete = True
+    Ballot.query.filter_by(ballotID=session['userID']).first(
+    ).ballotPresident = session['userPresident']
+    Ballot.query.filter_by(ballotID=session['userID']).first(
+    ).ballotVicePresident = session['userVicePresident']
+    Ballot.query.filter_by(ballotID=session['userID']).first(
+    ).ballotSecretary = session['userSecretary']
+    Ballot.query.filter_by(ballotID=session['userID']).first(
+    ).ballotTreasurer = session['userTreasurer']
+    Ballot.query.filter_by(ballotID=session['userID']).first(
+    ).ballotAuditor = session['userAuditor']
+    Ballot.query.filter_by(ballotID=session['userID']).first(
+    ).ballotTime = datetime.now().strftime("%Y-%m-%dT%H:%M:%SZ")
+    Ballot.query.filter_by(
+        ballotID=session['userID']).first().ballotIsComplete = True
     session['userIsComplete'] = True
     database.session.commit()
 
 def commit_candidate():
-    Candidate.query.filter_by(candidateID=session['userPresident']).first().candidateTotalVotes += 1
-    Candidate.query.filter_by(candidateID=session['userVicePresident']).first().candidateTotalVotes += 1
-    Candidate.query.filter_by(candidateID=session['userSecretary']).first().candidateTotalVotes += 1
-    Candidate.query.filter_by(candidateID=session['userTreasurer']).first().candidateTotalVotes += 1
-    Candidate.query.filter_by(candidateID=session['userAuditor']).first().candidateTotalVotes += 1
-    Candidate.query.filter_by(candidateID=session['userPresident']).first().candidateTime = datetime.now().strftime("%Y-%m-%dT%H:%M:%SZ")
+    Candidate.query.filter_by(
+        candidateID=session['userPresident']).first().candidateTotalVotes += 1
+    Candidate.query.filter_by(
+        candidateID=session['userVicePresident']).first().candidateTotalVotes += 1
+    Candidate.query.filter_by(
+        candidateID=session['userSecretary']).first().candidateTotalVotes += 1
+    Candidate.query.filter_by(
+        candidateID=session['userTreasurer']).first().candidateTotalVotes += 1
+    Candidate.query.filter_by(
+        candidateID=session['userAuditor']).first().candidateTotalVotes += 1
+    Candidate.query.filter_by(candidateID=session['userPresident']).first(
+    ).candidateTime = datetime.now().strftime("%Y-%m-%dT%H:%M:%SZ")
     database.session.commit()
 
 def clear_session():
@@ -328,7 +346,7 @@ def clear_session():
 @app.route('/verify', methods=['GET', 'POST'])
 def verify_page():
     session['fromVote'] = False
-    #SAVE VOTES
+    # SAVE VOTES
     if request.method == 'POST':
         if not session['userIsComplete']:
             if session['formValid']:
@@ -341,11 +359,16 @@ def verify_page():
 
     if validate_session():
         if session['formValid'] or session['userIsComplete']:
-            choicePresident = Candidate.query.filter_by(candidateID=session['userPresident']).first()
-            choiceVicePresident = Candidate.query.filter_by(candidateID=session['userVicePresident']).first()
-            choiceSecretary = Candidate.query.filter_by(candidateID=session['userSecretary']).first()
-            choiceTreasurer = Candidate.query.filter_by(candidateID=session['userTreasurer']).first()
-            choiceAuditor = Candidate.query.filter_by(candidateID=session['userAuditor']).first()
+            choicePresident = Candidate.query.filter_by(
+                candidateID=session['userPresident']).first()
+            choiceVicePresident = Candidate.query.filter_by(
+                candidateID=session['userVicePresident']).first()
+            choiceSecretary = Candidate.query.filter_by(
+                candidateID=session['userSecretary']).first()
+            choiceTreasurer = Candidate.query.filter_by(
+                candidateID=session['userTreasurer']).first()
+            choiceAuditor = Candidate.query.filter_by(
+                candidateID=session['userAuditor']).first()
             return render_template('verify.html', choicePresident=choicePresident, choiceVicePresident=choiceVicePresident, choiceSecretary=choiceSecretary, choiceTreasurer=choiceTreasurer, choiceAuditor=choiceAuditor)
         else:
             return redirect(url_for('vote_page'))
